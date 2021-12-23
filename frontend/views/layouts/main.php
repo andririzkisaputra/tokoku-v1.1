@@ -21,6 +21,7 @@ AppAsset::register($this);
         <meta charset="<?= Yii::$app->charset ?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <?php $this->registerCsrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
@@ -47,20 +48,20 @@ AppAsset::register($this);
             NavBar::begin([
                 'brandLabel' => 'TokoKu',
                 'brandUrl' => Yii::$app->homeUrl,
-                'options' => ['class' => 'bg-menu mynavbar navbar-fixed-top'],
+                'options' => ['class' => 'navbar-expand-md bg-menu mynavbar navbar-fixed-top'],
             ]);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav mynavbar  navbar-right'],
                 'items' => [
-                    ['label' => '<span class="glyphicon glyphicon-home"></span> Beranda', 'url' => ['/osengmercon/default/index', 'slug' => 'oseng-mercon-bu-narti']],
-                     ['label' => '<span class="glyphicon glyphicon-search"></span> Produk',
-                         'items' => [
-                             ['label' => 'Face Products', 'url' => ['/site/face']],
-                             ['label' => 'Hair Products', 'url' => ['/site/hair']],
-                             ['label' => 'Body Products', 'url' => ['/site/body']],
-                         ]
-                     ],
-                    ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang <span class="label label-success">'.$view."</span>", 'url' => ['/osengmercon/default/cart']],
+                    ['label' => '<span class="glyphicon glyphicon-home"></span> Beranda', 'url' => ['/site/index']],
+                     // ['label' => '<span class="glyphicon glyphicon-search"></span> Produk',
+                     //     'items' => [
+                     //         ['label' => 'Face Products', 'url' => ['/site/face']],
+                     //         ['label' => 'Hair Products', 'url' => ['/site/hair']],
+                     //         ['label' => 'Body Products', 'url' => ['/site/body']],
+                     //     ]
+                     // ],
+                    ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang <span class="label label-success">'.$view."</span>", 'url' => ['/site/keranjang']],
                 ],
                 'encodeLabels' => false,
             ]);
