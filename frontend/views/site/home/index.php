@@ -173,5 +173,32 @@ $this->registerJs("
   });
 ");
 ?>
-<div class="container">
+<div class="osengmercon-default-index">
+  <style>
+    .parallax {
+        /* The image used */
+        background-image: url(<?php echo Url::to('@web/img/banner_oseng_mercon_01.jpg'); ?>);
+
+        /* Full height */
+        height: 100%;
+        padding: 30px;
+        width:100%;
+        margin-top:50px;
+        /* Create the parallax scrolling effect */
+        /*background-attachment: fixed;*/
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .parallax::before{background:#000;}
+    div.first {
+        background: rgba(0, 0, 0, 0.2);
+        padding:5px;
+        color:#0a3d62;
+    }
+  </style>
+
+  <div class="container">
+  </div>
 </div>
