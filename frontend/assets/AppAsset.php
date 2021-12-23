@@ -15,10 +15,10 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-      'js/modal.js',
-      'js/popper.min.js',
-      'js/bootstrap.js',
-      'js/custom.js',
+      // 'js/modal.js',
+      // 'js/popper.min.js',
+      // 'js/bootstrap.js',
+      // 'js/custom.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
