@@ -41,6 +41,7 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
             // $cart = new ShoppingCart();
+            $view = 0;
             // $view = $cart->getCount();
 
             NavBar::begin([
@@ -52,14 +53,14 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav mynavbar  navbar-right'],
                 'items' => [
                     ['label' => '<span class="glyphicon glyphicon-home"></span> Beranda', 'url' => ['/osengmercon/default/index', 'slug' => 'oseng-mercon-bu-narti']],
-//                    ['label' => '<span class="glyphicon glyphicon-search"></span> Produk',
-//                        'items' => [
-//                            ['label' => 'Face Products', 'url' => ['/site/face']],
-//                            ['label' => 'Hair Products', 'url' => ['/site/hair']],
-//                            ['label' => 'Body Products', 'url' => ['/site/body']],
-//                        ]
-//                    ],
-                    ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang <span class="label label-success">view"</span>"', 'url' => ['/osengmercon/default/cart']],
+                     ['label' => '<span class="glyphicon glyphicon-search"></span> Produk',
+                         'items' => [
+                             ['label' => 'Face Products', 'url' => ['/site/face']],
+                             ['label' => 'Hair Products', 'url' => ['/site/hair']],
+                             ['label' => 'Body Products', 'url' => ['/site/body']],
+                         ]
+                     ],
+                    ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang <span class="label label-success">'.$view."</span>", 'url' => ['/osengmercon/default/cart']],
                 ],
                 'encodeLabels' => false,
             ]);
