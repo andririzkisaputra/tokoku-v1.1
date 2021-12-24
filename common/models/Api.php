@@ -4,9 +4,9 @@ namespace common\models;
 
 use Yii;
 use yii\base\Model;
-use app\models\Produk;
+// use app\models\Produk;
+use backend\models\Produk;
 use app\models\Keranjang;
-// use app\backend\models\ProdukQuery;
 use yii\db\Query;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
@@ -120,12 +120,28 @@ class Api extends Model
     return $semua->all();
   }
 
-  public function get_tabel_by($tabel, $where = false)
+  public function get_tabel_by($tabel, $where = false, $keranjang = false)
   {
     $semua = new Query;
     $semua->from($tabel);
     if ($where) {
       $semua->where($where);
+    }
+    if ($keranjang) {
+      $id = $where['produk_id'];
+      $cart = Yii::$app->cart;
+      // if ($id) {
+        $model = ProdukForm::findOne([
+          'produk_id' => $where['produk_id'],
+        ]);
+        // $model = Produk::findOne($where);
+        if ($model) {
+            $cart->put($model, 1);
+            return $semua->one();
+            // return $this->redirect(['cart-view']);
+        }
+        throw new NotFoundHttpException();
+      // }
     }
     return $semua->one();
   }

@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Pjax;
+use yii\widgets\ListView;
 use yii\bootstrap4\Modal;
 
 $this->title = 'TokoKu';
@@ -13,6 +15,7 @@ $this->registerJs("
 
   function _getData()
   {
+    var keranjang = 1;
     $.ajax({
         type     : 'POST',
         url      : '".Url::base(true)."/api/rekomendasi-produk',
@@ -42,9 +45,14 @@ $this->registerJs("
                   +'<div class=".'"option_container"'.">'
                      +'<div class=".'"options"'.">'
                         +html
-                        +'<a href=".'"javascript:void(0)"'." class=".'"option2 beli"'." data='+item.produk_id+'>'
-                         +'Beli'
-                        +'</a>'
+                        +'<div class=".'""'." style=".'"text-align: center"'.">'
+                          +'<a href=".'"javascript:void(0)"'." class=".'"col-sm-4 option2 beli"'." data='+item.produk_id+' style=".'"margin: 5px 5px 0px 10px"'.">'
+                           +'Beli'
+                          +'</a>'
+                          +'<a href=".'"javascript:void(0)"'." class=".'"col-sm-4 option3 detail"'." data='+item.produk_id+' style=".'"margin: 5px 5px 0px 10px"'.">'
+                           +'Detail'
+                          +'</a>'
+                        +'</div>'
                      +'</div>'
                   +'</div>'
                   +'<div class=".'"img-box"'.">'
@@ -177,10 +185,10 @@ $this->registerJs("
   <style>
     .parallax {
         /* The image used */
-        background-image: url(<?php echo Url::to('@web/img/banner_oseng_mercon_01.jpg'); ?>);
+        background-image: url(<?php echo Url::to('@web/images/banner_oseng_mercon_01.jpg'); ?>);
 
         /* Full height */
-        height: 100%;
+        height: 10%;
         padding: 30px;
         width:100%;
         margin-top:50px;
@@ -200,5 +208,25 @@ $this->registerJs("
   </style>
 
   <div class="container">
+    <div class="parallax">
+      <div class="row">
+          <div class="col-sm-12">
+              <div align="right" class="first">
+                  <h3 style="color: white">TokoKu 12.12</h3>
+                  <h4 style="color: white">Discount 30% all item*</h4>
+              </div>
+              <br /><br /><br /><br /><br /><br /><br /><br /><br />
+          </div>
+      </div>
+    </div>
   </div>
+
+  <hr />
+  <br />
+  <section class="product_section layout_padding">
+      <div class="container">
+        <h4 class="title">PRODUK</h4>
+        <div class="row" id="rekomendasi-produk" style="border-width: 1px; border-style: solid; border-color: #ddd; padding: 0px 25px 10px 25px"></div>
+      </div>
+  </section>
 </div>

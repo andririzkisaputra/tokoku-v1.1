@@ -10,7 +10,7 @@ use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
 use yii\helpers\Url;
-// use yz\shoppingcart\ShoppingCart;
+use yz\shoppingcart\ShoppingCart;
 
 AppAsset::register($this);
 ?>
@@ -41,9 +41,9 @@ AppAsset::register($this);
 
         <div class="wrap">
             <?php
-            // $cart = new ShoppingCart();
-            $view = 0;
-            // $view = $cart->getCount();
+            $cart = new ShoppingCart();
+            // $view = 0;
+            $view = $cart->getCount();
 
             NavBar::begin([
                 'brandLabel' => 'TokoKu',

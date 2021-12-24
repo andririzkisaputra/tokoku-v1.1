@@ -11,6 +11,9 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yz\shoppingcart\CartPositionInterface;
+use yz\shoppingcart\CartPositionTrait;
+use yz\shoppingcart\ShoppingCart;
 
 /**
  * Site controller
@@ -107,7 +110,7 @@ class ApiController extends Controller
       $model     = new Keranjang();
       $keranjang = $modelApi->get_tabel_by('keranjang', ['produk_id' => $_POST['produk_id'], 'is_selected' => '0']);
       if (!$keranjang) {
-        $query = $modelApi->get_tabel_by('produk', ['produk_id' => $_POST['produk_id']]);
+        $query = $modelApi->get_tabel_by('produk', ['produk_id' => $_POST['produk_id']], true);
         $data  = $modelApi->simpan_keranjang($model, $query);
       }
       $result['data'] = ($keranjang) ? $keranjang['keranjang_id'] : $data;
@@ -140,7 +143,7 @@ class ApiController extends Controller
       $modelApi = new Api();
       $model    = new Keranjang();
       $queryKeranjang	= $modelApi->get_tabel_by('keranjang', ['keranjang_id' => $_POST['keranjang_id']]);
-      $query = $modelApi->get_tabel_by('produk', ['produk_id' => $queryKeranjang['produk_id']]);
+      $query = $modelApi->get_tabel_by('produk', ['produk_id' => $queryKeranjang['produk_id']], true);
       $data  = $modelApi->update_keranjang($queryKeranjang, $query, $_POST['is_keranjang']);
 
       $result['data'] = $data;

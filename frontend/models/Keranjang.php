@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yz\shoppingcart\CartPositionInterface;
+use yz\shoppingcart\CartPositionTrait;
 
 /**
  * This is the model class for table "keranjang".
@@ -17,8 +19,11 @@ use yii\behaviors\TimestampBehavior;
  * @property int|null $created_at
  * @property int|null $modified_at
  */
-class Keranjang extends \yii\db\ActiveRecord
+class Keranjang extends \yii\db\ActiveRecord implements CartPositionInterface
 {
+
+    use CartPositionTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -65,6 +70,16 @@ class Keranjang extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'modified_at' => 'Modified At',
         ];
+    }
+
+    public function getPrice()
+    {
+        return $this->harga;
+    }
+
+    public function getId()
+    {
+        return $this->keranjang_id;
     }
 
     /**
