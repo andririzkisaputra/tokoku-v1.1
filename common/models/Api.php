@@ -74,6 +74,36 @@ class Api extends Model
     return $semua->all();
   }
 
+  public function get_join_lop(
+    $where = false,
+    $where_like = false,
+    $limit = false,
+    $start = false,
+    $order_by,
+    $tabel,
+    $tabel_join,
+    $select = '*'
+  ) {
+    $semua = new Query;
+    $semua->select($select);
+    $semua->from($tabel);
+    foreach ($tabel_join as $key => $value) {
+      $semua->leftJoin($value['tabel'], $value['where']);
+    }
+    if ($where) {
+      $semua->where($where);
+    }
+    if ($where_like) {
+      $semua->andWhere($where_like);
+    }
+    if ($limit) {
+      $semua->offset($start)->limit($limit);
+    }
+    $semua->groupBy(['keranjang.transaksi_id']);
+    $semua->orderBy([$order_by => SORT_DESC]);
+    return $semua->all();
+  }
+
   public function get_join_tabel_by($where = false, $where_like = false, $limit = false, $start = false, $order_by, $tabel, $tabelJoin, $selectJoin, $select = '*', $tabelJoinDua = false ,$selectJoinDua = false)
   {
     $semua = new Query;
@@ -350,6 +380,20 @@ class Api extends Model
     print_r($content);
     exit;
     return $content;
+  }
+
+  public function status_transaksi($value)
+  {
+    $data = [
+      1 => 'Menunggu Pembayaran',
+      2 => 'Menunggu Konfirmasi Pembayaran',
+      3 => 'Dibayar',
+      4 => 'Batal',
+      5 => 'Gagal',
+      6 => 'Dikirim',
+      7 => 'Selesai',
+    ];
+    return $data[$value];
   }
 
 }

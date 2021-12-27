@@ -185,17 +185,21 @@ class ApiController extends Controller
     {
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $modelApi = new Api();
-      $query = $modelApi->get_join_tabel(
+      $tabel_join = [
+        ['tabel' => 'keranjang', 'where' => 'transaksi.transaksi_id = keranjang.transaksi_id'],
+        ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id']
+      ];
+      $query = $modelApi->get_join_lop(
         [
-          'keranjang.created_by' => Yii::$app->user->identity->id,
-          'is_selected'          => '0'
+          'transaksi.created_by' => Yii::$app->user->identity->id
         ],
-        false, false, false, 'keranjang.created_at', 'keranjang', 'produk', 'keranjang.produk_id = produk.produk_id',
-        'keranjang.*, produk.nama_produk, produk.gambar'
+        false, false, false, 'keranjang.created_at', 'transaksi', $tabel_join, '*'
       );
 
       foreach ($query as $key => $value) {
-				$query[$key]['harga_f']	  = "Rp ".number_format($value['harga'],0,',','.');
+				$query[$key]['harga_f']            = "Rp ".number_format($value['harga'],0,',','.');
+				$query[$key]['harga_produk_f']     = "Rp ".number_format($value['harga_produk'],0,',','.');
+        $query[$key]['status_transaksi_f'] = $modelApi->status_transaksi($value['status_transaksi']);
 			}
       $result['data'] = $query;
       return $result;

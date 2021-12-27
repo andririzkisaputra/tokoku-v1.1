@@ -42,8 +42,10 @@ $this->registerJs("
           html  = array.toString();
           $('#list-keranjang').html(html);
           if (res.data.length > 0) {
+            $('.empty-button').show();
             $('.empty-data').hide();
           } else {
+            $('.empty-button').hide();
             $('.empty-data').show();
           }
           return true;
@@ -120,7 +122,7 @@ $this->registerJs("
     </h2>
   </div>
   <br>
-  <div class="btn-box" style="text-align: center">
+  <div class="empty-button btn-box" style="text-align: center">
     <a class="btn btn-success" href="javascript:void(0)" id="beli">Pesanan</a>
   </div>
 
