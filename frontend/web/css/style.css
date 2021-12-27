@@ -819,7 +819,7 @@ a:focus {
 }
 
 /* footer section*/
-.footer_section {
+/* .footer_section {
   background-color: #002c3e;
   color: #ffffff;
   padding-top: 70px;
@@ -948,7 +948,7 @@ a:focus {
 
 .footer_section .footer-info p a {
   color: inherit;
-}
+} */
 /*# sourceMappingURL=style.css.map */
 
 .heading_container.heading_center h3 {
@@ -1004,14 +1004,14 @@ li.nav-item ul li a:hover, li.nav-item ul li a:focus {
 
 /** footer **/
 
-footer {
+/* footer {
     background: #ffffff;
     padding: 90px 0 70px;
 }
 
 .logo_footer {
     margin-bottom: 30px;
-}
+} */
 
 .information_f p {
     margin-bottom: 1.2rem;

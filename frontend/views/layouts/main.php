@@ -98,8 +98,7 @@ AppAsset::register($this);
         <footer class="footer" style="background:#034f84;">
             <div class="container">
                 <p class="pull-left" style="color:white">&copy; TokoKu <?= date('Y') ?></p>
-
-                <p class="pull-right" style="color:white">Powered by FasaPay Indonesia</p>
+                <!-- <p class="pull-right" style="color:white">Powered by FasaPay Indonesia</p> -->
             </div>
         </footer>
 

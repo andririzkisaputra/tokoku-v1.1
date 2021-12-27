@@ -363,10 +363,17 @@ class SiteController extends Controller
        $modelApi       = new Api();
        $modelTransaksi = new Transaksi();
        $modelTagihan   = new Tagihan();
-       if ($_GET['track_id']) {
-         $keranjang = $modelApi->get_tabel_by('keranjang', ['keranjang_id' => $_GET['track_id']]);
-         $transaksi = $modelApi->simpan_transaksi($modelTransaksi, $keranjang, $_GET);
-         $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $keranjang, $_GET, $transaksi);
+       if (Yii::$app->user->identity->id) {
+         $data = [
+           'harga_produk' => 0
+         ];
+         $keranjang = $modelApi->get_tabel_all('keranjang', ['created_by' => Yii::$app->user->identity->id, 'is_selected' => '0']);
+         foreach ($keranjang as $key => $value) {
+           $data['pembayaran_id'] = $value['pembayaran_id'];
+           $data['harga_produk']  = $data['harga_produk']+($value['harga']*$value['qty']);
+         }
+         $transaksi = $modelApi->simpan_transaksi($modelTransaksi, $data, $_GET);
+         $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $data, $_GET, $transaksi);
        }
        $this->redirect('@web/site/pesanan');
      }
