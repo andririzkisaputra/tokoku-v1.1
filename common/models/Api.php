@@ -201,14 +201,20 @@ class Api extends Model
     }
   }
 
-  public function update_sistem_pembayaran($keranjang, $pembayaran)
+  public function update_sistem_pembayaran($pembayaran)
   {
-    $update = Keranjang::findOne([
-      'keranjang_id' => $keranjang,
+    return Keranjang::updateAll(['pembayaran_id' => $pembayaran], [
+      'created_by'   => Yii::$app->user->identity->id,
       'is_selected'  => '0',
     ]);
-    $update->pembayaran_id = $pembayaran;
-    return $update->save();
+    // $update = Keranjang::find([
+    //   'created_by'   => Yii::$app->user->identity->id,
+    //   'is_selected'  => '0',
+    // ]);
+    // print_r($update);
+    // exit;
+    // $update->pembayaran_id = $pembayaran;
+    // return $update->save();
   }
 
   public function ubah_produk($model, $produk, $kategori)

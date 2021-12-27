@@ -16,7 +16,7 @@ class AppAsset extends AssetBundle
         'css/style.css',
     ];
     public $js = [
-      // 'js/modal.js',
+      'js/modal.js',
       // 'js/popper.min.js',
       // 'js/bootstrap.js',
       // 'js/custom.js',

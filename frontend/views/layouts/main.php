@@ -32,10 +32,16 @@ AppAsset::register($this);
         <style>
             .bg-menu{
                 background:#034f84;
-                color:white !important;
             }
-            .navbar-header > a{
+            .navbar-brand{
                 color:white;
+                display: inline-block;
+                padding-top: 0.3125rem;
+                padding-bottom: 0.3125rem;
+                margin-right: 1rem;
+                font-size: 1.25rem;
+                line-height: inherit;
+                white-space: nowrap;
             }
         </style>
 
@@ -48,23 +54,30 @@ AppAsset::register($this);
             NavBar::begin([
                 'brandLabel' => 'TokoKu',
                 'brandUrl' => Yii::$app->homeUrl,
-                'options' => ['class' => 'navbar-expand-md bg-menu mynavbar navbar-fixed-top'],
+                'options' => ['class' => 'navbar-expand-md bg-menu mynavbar navbar-fixed-top', 'id' => 'navbar-brand'],
             ]);
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav mynavbar  navbar-right'],
-                'items' => [
-                    ['label' => '<span class="glyphicon glyphicon-home"></span> Beranda', 'url' => ['/site/index']],
-                     // ['label' => '<span class="glyphicon glyphicon-search"></span> Produk',
-                     //     'items' => [
-                     //         ['label' => 'Face Products', 'url' => ['/site/face']],
-                     //         ['label' => 'Hair Products', 'url' => ['/site/hair']],
-                     //         ['label' => 'Body Products', 'url' => ['/site/body']],
-                     //     ]
-                     // ],
-                    ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang <span class="label label-success">'.$view."</span>", 'url' => ['/site/keranjang']],
-                ],
-                'encodeLabels' => false,
-            ]);
+            if (Yii::$app->user->isGuest) {
+              echo Nav::widget([
+                  'options' => ['class' => 'navbar-nav mynavbar  navbar-right'],
+                  'items' => [
+                      ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Login', 'url' => ['/site/login']],
+                  ],
+                  'encodeLabels' => false,
+              ]);
+            } else {
+              echo Nav::widget([
+                  'options' => ['class' => 'navbar-nav mynavbar  navbar-right'],
+                  'items' => [
+                      ['label' => '<span class="glyphicon glyphicon-home"></span> Beranda', 'url' => ['/site/index']],
+                      ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Pesanan', 'url' => ['/site/pesanan']],
+                      ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang', 'url' => ['/site/keranjang']],
+
+                      ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Logout ('.Yii::$app->user->identity->username.')', 'url' => ['/site/logout']],
+                      // ['label' => '<span class="glyphicon glyphicon-shopping-cart"></span> Keranjang <span class="label label-success">'.$view."</span>", 'url' => ['/site/keranjang']],
+                  ],
+                  'encodeLabels' => false,
+              ]);
+            }
 
             NavBar::end();
 

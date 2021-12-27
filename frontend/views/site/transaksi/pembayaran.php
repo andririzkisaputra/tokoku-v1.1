@@ -23,7 +23,7 @@ $this->registerJs("
           let array = [];
           res.data.map((item, index) => {
             let id       = item.pembayaran_id
-            let gambar_f = '/tokoku/uploads/backend/other/'+item.gambar;
+            let gambar_f = '/e-commerce/uploads/backend/other/'+item.gambar;
             array.push('<div class=".'"form-check"'." style=".'"margin: 0px 0px 20px 0px"'.">'
               +'<input class=".'"form-check-input"'." style=".'"margin-top: 1.3rem"'." type=".'"radio"'." id=".'"dataPembayaran"'." value='+id+' name=".'"pembayaran"'."/>'
               +'<img width=".'"50"'." src="."'+gambar_f+'"." style=".'"margin: 0px 20px 0px 0px"'.">'
@@ -54,7 +54,7 @@ $this->registerJs("
           dataType : 'JSON',
           data     : {
             pembayaran   : pembayaran,
-            keranjang_id : keranjang_id,
+            // keranjang_id : keranjang_id,
           },
           success: function(data){
             document.location.reload();

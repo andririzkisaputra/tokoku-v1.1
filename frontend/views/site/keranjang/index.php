@@ -18,7 +18,7 @@ $this->registerJs("
           let html  = '';
           let array = [];
           res.data.map((item, index) => {
-          let gambar_f = '/tokoku/uploads/backend/produk/'+item.gambar;
+          let gambar_f = '/e-commerce/uploads/backend/produk/'+item.gambar;
           array.push('<div class=".'"container-keranjang row"'.">'
               +'<div class=".'"row row-keranjang"'.">'
                 +'<img width=".'"100"'." src="."'+gambar_f+'".">'
@@ -115,7 +115,13 @@ $this->registerJs("
   </div>
   <div class="empty-data heading_center" style="text-align: center">
     <h2>
-      Keranjang <span>Kosong</span>
+      Keranjang
+      <span>Kosong</span>
     </h2>
   </div>
+  <br>
+  <div class="btn-box" style="text-align: center">
+    <a class="btn btn-success" href="javascript:void(0)" id="beli">Pesanan</a>
+  </div>
+
 </div>

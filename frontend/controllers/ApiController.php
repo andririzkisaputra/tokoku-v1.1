@@ -127,7 +127,7 @@ class ApiController extends Controller
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $modelApi = new Api();
       $model    = new Keranjang();
-      $data     = $modelApi->update_sistem_pembayaran($_POST['keranjang_id'], $_POST['pembayaran']);
+      $data     = $modelApi->update_sistem_pembayaran($_POST['pembayaran']);
       $result['data'] = $data;
       return $result;
     }
@@ -210,13 +210,14 @@ class ApiController extends Controller
     {
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $harga = 0;
+      $total = 0;
       $qty   = 0;
       $modelApi = new Api();
       $query = $modelApi->get_join_tabel(
         [
           'keranjang.created_by' => Yii::$app->user->identity->id,
           'is_selected'          => '0',
-          'keranjang_id'         => $_POST['nomor']
+          // 'keranjang_id'         => $_POST['nomor']
         ],
         false, false, false, 'keranjang.created_at', 'keranjang', 'produk', 'keranjang.produk_id = produk.produk_id',
         'keranjang.*, produk.nama_produk, produk.gambar, pembayaran.pembayaran, pembayaran.admin', 'pembayaran', 'pembayaran.pembayaran_id = keranjang.pembayaran_id'
@@ -224,14 +225,15 @@ class ApiController extends Controller
 
       foreach ($query as $key => $value) {
 				$query[$key]['harga_f']	  = "Rp ".number_format($value['harga'],0,',','.');
-        $harga                    = $value['harga'];
-        $harga                    = $value['qty']*$harga;
+        // $harga                    = $value['harga'];
+        $harga                    = $harga+($value['qty']*$value['harga']);
         $qty                      = $value['qty']+$qty;
         $admin                    = $value['admin'];
         $keranjang_id             = $value['keranjang_id'];
+        // $total                    = $total+($harga+$admin);
 			}
       $ongkir = 10000;
-      $total  = $harga+$admin+$ongkir;
+      $total  = $total+$harga+$ongkir;
       $result['fasapay_data'] = [
         'fp_acc'          => 'FPX4593',
         'fp_item'         => $qty.' produk',
@@ -261,9 +263,9 @@ class ApiController extends Controller
         'onkir_f'       => "Rp ".number_format($ongkir,0,',','.'),
         'total_f'       => "Rp ".number_format($total,0,',','.')
       ];
-      $result['fp_success_url'] = 'http://192.168.9.98/tokoku/frontend/web/site/success?track_id='.$keranjang_id.'&order_id='.$result['fasapay_data']['order_id'].'&fp_merchant_ref='.$result['fasapay_data']['fp_merchant_ref'];
-      $result['fp_fail_url']    = 'http://192.168.9.98/tokoku/frontend/web/';
-      $result['fp_status_url']  = 'http://192.168.9.98/tokoku/frontend/web/';
+      $result['fp_success_url'] = 'http://192.168.9.98/e-commerce/frontend/web/site/success?track_id='.$keranjang_id.'&order_id='.$result['fasapay_data']['order_id'].'&fp_merchant_ref='.$result['fasapay_data']['fp_merchant_ref'];
+      $result['fp_fail_url']    = 'http://192.168.9.98/e-commerce/frontend/web/';
+      $result['fp_status_url']  = 'http://192.168.9.98/e-commerce/frontend/web/';
       $result['data'] = $query;
       return $result;
     }
