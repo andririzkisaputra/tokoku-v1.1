@@ -74,7 +74,7 @@ class Api extends Model
     return $semua->all();
   }
 
-  public function get_join_lop(
+  public function get_join_loop(
     $where = false,
     $where_like = false,
     $limit = false,
@@ -82,7 +82,8 @@ class Api extends Model
     $order_by,
     $tabel,
     $tabel_join,
-    $select = '*'
+    $select = '*',
+    $group_by = false
   ) {
     $semua = new Query;
     $semua->select($select);
@@ -99,7 +100,9 @@ class Api extends Model
     if ($limit) {
       $semua->offset($start)->limit($limit);
     }
-    $semua->groupBy(['keranjang.transaksi_id']);
+    if ($group_by) {
+      $semua->groupBy($group_by);
+    }
     $semua->orderBy([$order_by => SORT_DESC]);
     return $semua->all();
   }

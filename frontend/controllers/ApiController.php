@@ -189,16 +189,32 @@ class ApiController extends Controller
         ['tabel' => 'keranjang', 'where' => 'transaksi.transaksi_id = keranjang.transaksi_id'],
         ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id']
       ];
-      $query = $modelApi->get_join_lop(
-        [
+      $query = $modelApi->get_join_loop([
           'transaksi.created_by' => Yii::$app->user->identity->id
         ],
-        false, false, false, 'keranjang.created_at', 'transaksi', $tabel_join, '*'
+        false, false, false, 'keranjang.updated_at', 'transaksi', $tabel_join, '*', ['keranjang.transaksi_id']
       );
+      $tabel_join = [
+        ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id']
+      ];
 
       foreach ($query as $key => $value) {
+				$query[$key]['keranjang'] = $modelApi->get_join_loop([
+            'is_selected'          => '1',
+            'transaksi_id'         => $value['transaksi_id'],
+            'keranjang.created_by' => Yii::$app->user->identity->id,
+          ],
+          false, false, false, 'keranjang.updated_at', 'keranjang', $tabel_join, '*, keranjang.qty as qty_keranjang'
+        );
+        foreach ($query[$key]['keranjang'] as $key1 => $value1) {
+          $query[$key]['keranjang'][$key1]['harga']          = (int)($value1['harga']*$value1['qty_keranjang']);
+          $query[$key]['keranjang'][$key1]['harga_f']        = number_format($value1['harga'],0,',','.');
+          $query[$key]['keranjang'][$key1]['harga_produk_f'] = "Rp ".number_format($query[$key]['keranjang'][$key1]['harga'],0,',','.');
+        }
 				$query[$key]['harga_f']            = "Rp ".number_format($value['harga'],0,',','.');
 				$query[$key]['harga_produk_f']     = "Rp ".number_format($value['harga_produk'],0,',','.');
+				$query[$key]['total']              = (int)($value['harga_produk']+$value['ongkir']);
+				$query[$key]['total_f']            = "Rp ".number_format($query[$key]['total'],0,',','.');
         $query[$key]['status_transaksi_f'] = $modelApi->status_transaksi($value['status_transaksi']);
 			}
       $result['data'] = $query;
