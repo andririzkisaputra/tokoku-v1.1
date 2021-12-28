@@ -1,53 +1,100 @@
 <?php
 
-/* @var $this yii\web\View */
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\bootstrap4\Modal;
 
 $this->title = 'Admin';
+
+$this->registerJs("
+  $(document).ready(function(){
+    $('#tabel_produk').DataTable({
+      dom: 'Blfrtip',
+      buttons: [],
+      'lengthMenu': [10, 20, 50, 100, 200, 500, 1000, 5000, 10000],
+      'pageLength': 10,
+      'lengthChange': true,
+      'processing': true,
+      'serverSide': true,
+      ajax : {
+        url  : '".Url::base(true)."/api/get-pesanan',
+        type : 'POST',
+        data : {},
+      },
+      columns: [
+        { data: 'no'},
+        { data: 'nama_produk', 'className' : 'text-left' },
+        { data: 'harga', 'className' : 'text-left',
+          render: $.fn.dataTable.render.number( '.', '', 0, 'Rp ' )
+        },
+        { data: 'aksi', 'className' : 'text-left' },
+      ],
+    });
+
+  });
+
+  $(document).on('click', '.hapus', function() {
+    var produk_id = $(this).attr('data');
+    if (produk_id) {
+      $.ajax({
+          type     : 'POST',
+          url      : '".Url::base(true)."/api/delete-produk',
+          dataType : 'JSON',
+          data     : {
+            produk_id : produk_id
+          },
+          success: function(data){
+            $('#tabel_produk').DataTable().ajax.reload();
+            return true;
+          },
+          error: function(){
+            alert('ERROR at PHP side!!');
+            return false;
+          }
+      });
+    } else {
+      return false;
+    }
+  });
+");
 ?>
 <div class="site-index">
-
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+  <div class="">
+    <h3>Pesanan</h3>
+  </div>
+  <div class="tambah-data btn-group">
+    <?= Html::button('Tambah Data', ['value' => Url::to(['tambah-data-produk']), 'class' => 'btn btn-sm btn-info showModalButton']); ?>
+  </div>
+  <div class="">
+    <table id="tabel_produk" class="table table-bordered table-striped" cellspacing="0">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Kode Pesanan</th>
+                <th>Nama Produk</th>
+                <th>Total</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>No</th>
+                <th>Kode Pesanan</th>
+                <th>Nama Produk</th>
+                <th>Total</th>
+                <th>Aksi</th>
+            </tr>
+        </tfoot>
+    </table>
+  </div>
 </div>
+<?php
+  Modal::begin([
+    'id'=>'modal',
+    'size'=>'modal-md',
+  ]);
+
+  echo "<div id='modalContent'></div>";
+
+  Modal::end();
+?>

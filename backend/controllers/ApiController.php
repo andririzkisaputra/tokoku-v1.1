@@ -94,6 +94,48 @@ class ApiController extends Controller
      *
      * @return string|Response
      */
+    public function actionGetPesanan()
+    {
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $draw       		 = $_POST['draw'];
+			$start      		 = $_POST['start'];
+			$rowperpage 		 = $_POST['length'];
+			$columnIndex  	 = $_POST['order'][0]['column'];
+			$columnName   	 = $_POST['columns'][$columnIndex]['data'];
+			$columnSortOrder = $_POST['order'][0]['dir'];
+			$searchValue     = $_POST['search']['value'];
+      $where_like 		 = array(
+				'produk.nama_produk'   => $searchValue,
+				'produk.nama_kategoti' => $searchValue,
+			);
+      $tabel_join = [
+        ['tabel' => 'kategori', 'where' => 'kategori.kategori_id = produk.kategori_id']
+      ];
+      $where_like = ['like', 'nama_produk' , $where_like];
+      $where      = ['=', 'produk.is_delete' , '1'];
+      $modelApi   = new Api();
+      $query		  = $modelApi->get_join_loop($where, $where_like, $rowperpage, $start, 'produk.updated_at', 'produk', $tabel_join);
+			foreach ($query as $key => $value) {
+				$query[$key]['no']	 = $key+1;
+				$query[$key]['aksi'] = '<div class="btn-group btn-group-toggle">'
+                                 .Html::button('Detail', ['value' => Url::to(['/site/detail-produk?id='.$value['produk_id']]), 'class' => 'btn btn-sm btn-info showModalButton'])
+                                 .Html::button('Ubah', ['value' => Url::to(['/site/ubah-data-produk?id='.$value['produk_id']]), 'class' => 'btn btn-sm btn-success showModalButton'])
+                                 .Html::button('Hapus', ['value' => Url::to(['javascript:void(0)']), 'class' => 'btn btn-sm btn-danger hapus', 'data' => $value['produk_id']])
+      												 .'</div>';
+			}
+
+      $result['draw'] 					 = $draw;
+			$result['recordsFiltered'] = count($modelApi->get_join_tabel($where, $where_like, false, false, 'produk.updated_at', 'produk', 'kategori', 'kategori.kategori_id = produk.kategori_id'));
+      $result['recordsTotal']    = count($query);
+			$result['data'] 					 = $query;
+      return $result;
+    }
+
+    /**
+     * Login action.
+     *
+     * @return string|Response
+     */
     public function actionGetKategori()
     {
 
