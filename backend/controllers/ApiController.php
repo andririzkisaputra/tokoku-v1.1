@@ -109,12 +109,13 @@ class ApiController extends Controller
 				'produk.nama_kategoti' => $searchValue,
 			);
       $tabel_join = [
-        ['tabel' => 'kategori', 'where' => 'kategori.kategori_id = produk.kategori_id']
+        ['tabel' => 'keranjang', 'where' => 'keranjang.transaksi_id = transaksi.transaksi_id'],
+        ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id'],
       ];
       $where_like = ['like', 'nama_produk' , $where_like];
       $where      = ['=', 'produk.is_delete' , '1'];
       $modelApi   = new Api();
-      $query		  = $modelApi->get_join_loop($where, $where_like, $rowperpage, $start, 'produk.updated_at', 'produk', $tabel_join);
+      $query		  = $modelApi->get_join_loop($where, $where_like, $rowperpage, $start, 'transaksi.updated_at', 'transaksi', $tabel_join);
 			foreach ($query as $key => $value) {
 				$query[$key]['no']	 = $key+1;
 				$query[$key]['aksi'] = '<div class="btn-group btn-group-toggle">'

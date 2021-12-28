@@ -23,8 +23,9 @@ $this->registerJs("
       },
       columns: [
         { data: 'no'},
+        { data: 'kode_transaksi', 'className' : 'text-left' },
         { data: 'nama_produk', 'className' : 'text-left' },
-        { data: 'harga', 'className' : 'text-left',
+        { data: 'harga_produk', 'className' : 'text-left',
           render: $.fn.dataTable.render.number( '.', '', 0, 'Rp ' )
         },
         { data: 'aksi', 'className' : 'text-left' },
