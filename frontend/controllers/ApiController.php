@@ -211,11 +211,22 @@ class ApiController extends Controller
           $query[$key]['keranjang'][$key1]['harga_f']        = number_format($value1['harga'],0,',','.');
           $query[$key]['keranjang'][$key1]['harga_produk_f'] = "Rp ".number_format($query[$key]['keranjang'][$key1]['harga'],0,',','.');
         }
+				$query[$key]['ongkir_f']            = "Rp ".number_format($value['ongkir'],0,',','.');
 				$query[$key]['harga_f']            = "Rp ".number_format($value['harga'],0,',','.');
 				$query[$key]['harga_produk_f']     = "Rp ".number_format($value['harga_produk'],0,',','.');
 				$query[$key]['total']              = (int)($value['harga_produk']+$value['ongkir']);
 				$query[$key]['total_f']            = "Rp ".number_format($query[$key]['total'],0,',','.');
-        $query[$key]['status_transaksi_f'] = $modelApi->status_transaksi($value['status_transaksi']);
+        $status_transaksi                  = $modelApi->status_transaksi($value['status_transaksi']);
+        if ($value['status_transaksi'] == '1') {
+          $query[$key]['status_transaksi_f'] = '<b class="text-basic">'.$status_transaksi.'</b>';
+        } elseif ($value['status_transaksi'] == '2') {
+          $query[$key]['status_transaksi_f'] = '<b class="text-primary">'.$status_transaksi.'</b>';
+        } elseif ($value['status_transaksi'] == '3' || $value['status_transaksi'] == '6') {
+          $query[$key]['status_transaksi_f'] = '<b class="text-info">'.$status_transaksi.'</b>';
+        } else {
+          $query[$key]['status_transaksi_f'] = '<b class="text-danger">'.$status_transaksi.'</b>';
+        }
+        
 			}
       $result['data'] = $query;
       return $result;

@@ -65,24 +65,24 @@ $this->registerJs("
               +'</div>');
             }
             if (i == 1) {
-              array.push('<div style=".'"column-count: 2"'.">'
-                +'<div class=".'"row-keranjang"'.">'
-                  +'<p>Biaya Admin</p>'
-                +'</div>'
-                +'<div class=".'"list-keranjang"'." style=".'"text-align: end; padding: 0px 15px 0px 0px"'.">'
-                  +'<a>'+res.rincian_f.biaya_admin_f+'</a>'
-                +'</div>'
-              +'</div>');
+              // array.push('<div style=".'"column-count: 2"'.">'
+              //   +'<div class=".'"row-keranjang"'.">'
+              //     +'<p>Biaya Admin</p>'
+              //   +'</div>'
+              //   +'<div class=".'"list-keranjang"'." style=".'"text-align: end; padding: 0px 15px 0px 0px"'.">'
+              //     +'<a>'+res.rincian_f.biaya_admin_f+'</a>'
+              //   +'</div>'
+              // +'</div>');
             }
             if (i == 2) {
-              array.push('<div style=".'"column-count: 2"'.">'
-                +'<div class=".'"row-keranjang"'.">'
-                  +'<p>Kode Unik</p>'
-                +'</div>'
-                +'<div class=".'"list-keranjang"'." style=".'"text-align: end; padding: 0px 15px 0px 0px"'.">'
-                  +'<a>'+res.rincian_f.kode_unik_f+'</a>'
-                +'</div>'
-              +'</div>');
+              // array.push('<div style=".'"column-count: 2"'.">'
+              //   +'<div class=".'"row-keranjang"'.">'
+              //     +'<p>Kode Unik</p>'
+              //   +'</div>'
+              //   +'<div class=".'"list-keranjang"'." style=".'"text-align: end; padding: 0px 15px 0px 0px"'.">'
+              //     +'<a>'+res.rincian_f.kode_unik_f+'</a>'
+              //   +'</div>'
+              // +'</div>');
             }
             if (i == 3) {
               array.push('<div style=".'"column-count: 2"'.">'
