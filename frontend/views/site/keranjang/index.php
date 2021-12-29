@@ -25,7 +25,15 @@ $this->registerJs("
                 +'<div class=".'"list-keranjang"'.">'
                   +'<b>'+item.nama_produk+'</b>'
                   +'<p>'+item.harga_f+'</p>'
-                  +'<p>'+item.qty+'</p>'
+                  +'<div style=".'""'.">'
+                    +'<a href=".'"javascript:void(0)"'." class=".'"col-sm-2 col-md-2 col-lg-2 option_min_max minKeranjang"'." data='+item.keranjang_id+'>'
+                      +'-'
+                    +'</a>'
+                    +'<b style=".'"padding: 0px 10px 0px 10px"'.">'+item.qty+'</b>'
+                    +'<a href=".'"javascript:void(0)"'." class=".'"col-sm-2 col-md-2 col-lg-2 option_min_max plusKeranjang"'." data='+item.keranjang_id+'>'
+                      +'+'
+                    +'</a>'
+                  +'</div>'
                 +'</div>'
               +'</div>'
               +'<div class=".'"list-keranjang right-keranjang"'.">'
@@ -104,6 +112,56 @@ $this->registerJs("
     // } else {
     //   return false;
     // }
+  });
+
+  $(document).on('click', '.minKeranjang', function() {
+    var keranjang_id = $(this).attr('data');
+    if (keranjang_id) {
+      $.ajax({
+          type     : 'POST',
+          url      : '".Url::base(true)."/api/keranjang',
+          dataType : 'JSON',
+          data     : {
+            keranjang_id : keranjang_id,
+            is_keranjang : 0
+          },
+          success: function(data){
+            _getData();
+            return true;
+          },
+          error: function(){
+            alert('ERROR at PHP side!!');
+            return false;
+          }
+      });
+    } else {
+      return false;
+    }
+  });
+
+  $(document).on('click', '.plusKeranjang', function() {
+    var keranjang_id = $(this).attr('data');
+    if (keranjang_id) {
+      $.ajax({
+          type     : 'POST',
+          url      : '".Url::base(true)."/api/keranjang',
+          dataType : 'JSON',
+          data     : {
+            keranjang_id : keranjang_id,
+            is_keranjang : 1
+          },
+          success: function(data){
+            _getData();
+            return true;
+          },
+          error: function(){
+            alert('ERROR at PHP side!!');
+            return false;
+          }
+      });
+    } else {
+      return false;
+    }
   });
 ");
 ?>

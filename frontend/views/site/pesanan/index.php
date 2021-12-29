@@ -16,7 +16,6 @@ $this->registerJs("
         url      : '".Url::base(true)."/api/get-pesanan',
         dataType : 'JSON',
         success: function(res){
-          console.log(res.data);
           let html             = '';
           let array            = [];
           let array_keranajang = [];
