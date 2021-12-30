@@ -8,21 +8,23 @@ class m130524_201442_init extends Migration
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey(),
-            'username' => $this->string()->notNull()->unique(),
-            'auth_key' => $this->string(32)->notNull(),
-            'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
-
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+        // NEW TABLE
+        $table = '{{%user}}';
+        $this->createTable($table, [
+            'id'                   => $this->primaryKey(),
+            'username'             => $this->string(255)->notNull(),
+            'nama'                 => $this->string(255)->notNull(),
+            'auth_key'             => $this->string(255)->notNull(),
+            'password_hash'        => $this->string(255)->notNull(),
+            'password_reset_token' => $this->string(255),
+            'email'                => $this->string(255)->notNull(),
+            'role'                 => 'enum("1", "2") NOT NULL DEFAULT "1" COMMENT "1. Master, 2.User"',
+            'status'               => 'enum("1", "2") NOT NULL DEFAULT "1" COMMENT "0. Tidak Aktif, 1. Aktif, 2. Suspend"',
+            'created_at'           => $this->integer(),
+            'updated_at'           => $this->integer(),
         ], $tableOptions);
     }
 

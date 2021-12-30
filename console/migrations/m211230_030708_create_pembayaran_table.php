@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%kategori}}`.
+ * Handles the creation of table `{{%pembayaran}}`.
  */
-class m211229_073223_create_kategori_table extends Migration
+class m211230_030708_create_pembayaran_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -18,11 +18,13 @@ class m211229_073223_create_kategori_table extends Migration
         }
 
         // NEW TABLE
-        $table = '{{%kategori}}';
+        $table = '{{%pembayaran}}';
         $this->createTable($table, [
-            'kategori_id'  => $this->primaryKey(),
-            'nama_kategori' => $this->string(255)->notNull(),
-            'is_delete' => 'enum("0", "1") NOT NULL DEFAULT "1" COMMENT "0. Delete, 1.Aktif"',
+            'pembayaran_id' => $this->primaryKey(),
+            'pembayaran'    => $this->string(45)->notNull(),
+            'is_active'     => 'enum("0", "1") NOT NULL DEFAULT "1" COMMENT "0. Tidak Aktif, 1.Aktif"',
+            'gambar'        => $this->string(255)->notNull(),
+            'admin'         => $this->string(255)->notNull(),
             'created_by'    => $this->integer(11)->notNull(),
             'created_at'    => $this->integer(),
             'updated_at'    => $this->integer(),
@@ -34,6 +36,6 @@ class m211229_073223_create_kategori_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable($table);
+        $this->dropTable('{{%pembayaran}}');
     }
 }
