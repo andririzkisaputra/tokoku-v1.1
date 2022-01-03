@@ -364,7 +364,7 @@ class Api extends Model
     $data['fp_store_link']   = '';
     $data['time_window']     = floor(time()/30);
     $data_hash               = implode(" ",$data);
-    $data['fp_mfp_request_hmacerchant_ref']    = hash_hmac('sha256', $data_hash, '123456');
+    $data['fp_request_hmac'] = hash_hmac('sha256', $data_hash, '123456');
     $data['track_id']        = '558421222';
     $data['order_id']        = 'BJ2993800';
     $data['fp_sci_link']     = true;
