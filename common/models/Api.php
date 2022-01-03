@@ -348,41 +348,46 @@ class Api extends Model
     return $update->delete();
   }
 
-  public function api_xml()
+  public function api_wallet()
   {
-    \Yii::$app->response->format = \yii\web\Response::FORMAT_XML;
-    // $myXMLData = xml version='1.0' encoding='UTF-8';
-    $myXMLData = "<?xml version='1.0' encoding='UTF-8'?>
-                    <fasa_request id='1234567'>
-                        <auth>
-                            <api_key>c9524af355f830798b295af60a82dcb5</api_key>
-                            <token>fba13252ebe83b280d2a7963a2a1a2049b9ef1713d00223d308cb8f98afc776d</token>
-                        </auth>
-                        <history>
-                        </history>
-                    </fasa_request>
-                  ";
-    $xml=simplexml_load_string($myXMLData) or die("Error: Cannot create object");
-    $url = "https://sandbox.fasapay.com/xml/";
-    $handler = curl_init();
-    // set URL and other appropriate options
-    curl_setopt($handler, CURLOPT_URL, $url);
-    curl_setopt($handler, CURLOPT_HEADER, false);
-    // print_r($xml);
-    // exit;
-    curl_setopt($handler, CURLOPT_SSL_VERIFYPEER, false);
-    // curl_setopt($handler, 115, 1);
+    $data['fp_sci_version']  = 3;
+    $data['fp_acc']          = 'FI632106';
+    $data['fp_acc_from']     = '';
+    $data['fp_amnt']         = '25000';
+    $data['fp_comments']     = '2 Barang';
+    $data['fp_currency']     = 'IDR';
+    $data['fp_expire_at']    = time();
+    $data['fp_item']         = '1';
+    $data['fp_merchant_ref'] = 'BL002883';
+    $data['fp_payment_mode'] = 'WALLET';
+    $data['fp_store']        = 'Pasar malam';
+    $data['fp_store_link']   = '';
+    $data['time_window']     = floor(time()/30);
+    $data_hash               = implode(" ",$data);
+    $data['fp_mfp_request_hmacerchant_ref']    = hash_hmac('sha256', $data_hash, '123456');
+    $data['track_id']        = '558421222';
+    $data['order_id']        = 'BJ2993800';
+    $data['fp_sci_link']     = true;
 
-    // Sending request through post
-    curl_setopt($handler, CURLOPT_POST, true);
-    curl_setopt($handler, CURLOPT_POSTFIELDS, 'req='.urlencode($xml));
-    // Some optimization :)
-    curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-    $content = curl_exec($handler);
-    curl_close($handler);
-    print_r($content);
-    exit;
-    return $content;
+    // print_r($data);
+    // exit;
+    
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+            "Content-Type: application/json",
+        )
+    );
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($curl, CURLOPT_URL, 'https://sci.fasapay.co.id/');
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+    $result = curl_exec($curl);
+    curl_close($curl);
+
+    return $result;
   }
 
   public function status_transaksi($value)

@@ -377,4 +377,18 @@ class SiteController extends Controller
        }
        $this->redirect('@web/site/pesanan');
      }
+
+
+    /**
+     * Keranjang action.
+     *
+     * @return string|Response
+     */
+    public function actionSciSecure()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        
+        $modelApi = new Api();
+        return $modelApi->api_wallet();
+    }
 }

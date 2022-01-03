@@ -106,22 +106,23 @@ $this->registerJs("
             }
           }
 
-          array.push(
-             '<input type=".'"hidden"'." name=".'"fp_acc"'." value='+res.fasapay_data.fp_acc+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_item"'." value='+res.fasapay_data.fp_item+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_comments"'." value='+res.fasapay_data.fp_comments+' />'
-            +'<input type=".'"hidden"'." name=".'"track_id"'." value='+res.fasapay_data.fp_track_id+' />'
-            +'<input type=".'"hidden"'." name=".'"order_id"'." value='+res.fasapay_data.fp_order_id+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_merchant_ref"'." value='+res.fasapay_data.fp_merchant_ref+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_currency"'." value=".'"IDR"'.">'
-            +'<input type=".'"hidden"'." name=".'"fp_success_url"'." value='+res.fp_success_url+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_success_method"'." value=".'"POST"'." />'
-            +'<input type=".'"hidden"'." name=".'"fp_fail_url"'." value='+res.fp_fail_url+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_fail_method"'." value=".'"GET"'." />'
-            +'<input type=".'"hidden"'." name=".'"fp_status_url"'." value='+res.fp_status_url+' />'
-            +'<input type=".'"hidden"'." name=".'"fp_status_method"'." value=".'"POST"'." />'
-            +'<input type=".'"hidden"'." name=".'"fp_amnt"'." value='+res.fasapay_data.fp_amnt+' />'
-          );
+          // array.push(
+          //    '<input type=".'"hidden"'." name=".'"fp_acc"'." value='+res.fasapay_data.fp_acc+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_item"'." value='+res.fasapay_data.fp_item+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_comments"'." value='+res.fasapay_data.fp_comments+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_merchant_ref"'." value='+res.fasapay_data.fp_merchant_ref+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_currency"'." value=".'"IDR"'.">'
+          //   +'<input type=".'"hidden"'." name=".'"fp_success_url"'." value='+res.fp_success_url+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_success_method"'." value=".'"POST"'." />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_fail_url"'." value='+res.fp_fail_url+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_fail_method"'." value=".'"GET"'." />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_status_url"'." value='+res.fp_status_url+' />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_status_method"'." value=".'"POST"'." />'
+          //   +'<input type=".'"hidden"'." name=".'"fp_amnt"'." value='+res.fasapay_data.fp_amnt+' />'
+          //   +'<input type=".'"hidden"'." name=".'"track_id"'." value='+res.fasapay_data.fp_track_id+' />'
+          //   +'<input type=".'"hidden"'." name=".'"order_id"'." value='+res.fasapay_data.fp_order_id+' />'
+          // );
+
           array = array.join('');
           html  = array.toString();
           $('#list-total').html(html);
@@ -152,9 +153,12 @@ $this->registerJs("
     </div>
   </div> -->
   <!-- end Voucher -->
-  <form method="POST" action="https://sandbox.fasapay.com/sci/">
+  
+  <form method="GET" action="sci-secure">
+  <!-- <form method="POST" action="https://sci.fasapay.com/"> -->
+  <!-- <form method="POST" action="https://sandbox.fasapay.com/sci/"> -->
     <!-- total -->
-      <div class="container-keranjang" id="list-total"></div>
+    <div class="container-keranjang" id="list-total"></div>
     <!-- end total -->
     <!-- <input type="hidden" name="fp_acc" value="FPX4593"> -->
     <!-- <input type="hidden" name="fp_item" value="2 pieces of Clothes"> -->
