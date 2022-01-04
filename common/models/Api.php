@@ -348,35 +348,33 @@ class Api extends Model
     return $update->delete();
   }
 
-  public function api_wallet()
+  public function api_wallet($post)
   {
     $data['fp_sci_version']  = 3;
-    $data['fp_acc']          = 'FI632106';
+    $data['fp_acc']          = $post['fp_acc'];
     $data['fp_acc_from']     = '';
-    $data['fp_amnt']         = '25000';
-    $data['fp_comments']     = '2 Barang';
+    $data['fp_amnt']         = '10';
+    $data['fp_comments']     = $post['fp_comments'];
     $data['fp_currency']     = 'IDR';
-    $data['fp_expire_at']    = time();
-    $data['fp_item']         = '1';
-    $data['fp_merchant_ref'] = 'BL002883';
+    $data['fp_expire_at']    = strtotime('+2 day');
+    $data['fp_item']         = $post['fp_item'];
+    $data['fp_merchant_ref'] = $post['fp_merchant_ref'];
     $data['fp_payment_mode'] = 'WALLET';
+    // $data['fp_payment_mode'] = 'QRIS';
     $data['fp_store']        = 'Pasar malam';
     $data['fp_store_link']   = '';
     $data['time_window']     = floor(time()/30);
-    $data_hash               = implode(" ",$data);
-    $data['fp_request_hmac'] = hash_hmac('sha256', $data_hash, '123456');
-    $data['track_id']        = '558421222';
-    $data['order_id']        = 'BJ2993800';
-    $data['fp_sci_link']     = true;
-
-    // print_r($data);
-    // exit;
+    $string                  = implode("|",$data);
+    $data['fp_request_hmac'] = hash_hmac('sha256', $string, '123456');
+    $data['track_id']        = $post['track_id'];
+    $data['order_id']        = rand(10000, 99999);
+    $data['fp_sci_link']     = 'true';
     
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-            "Content-Type: application/json",
-        )
+    array(
+      "Content-Type: application/json",
+      )
     );
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -386,8 +384,7 @@ class Api extends Model
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     $result = curl_exec($curl);
     curl_close($curl);
-
-    return $result;
+    return json_decode($result);
   }
 
   public function status_transaksi($value)

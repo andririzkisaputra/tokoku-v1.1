@@ -266,7 +266,7 @@ class ApiController extends Controller
       $ongkir = 10000;
       $total  = $total+$harga+$ongkir;
       $result['fasapay_data'] = [
-        'fp_acc'          => 'FPX4593',
+        'fp_acc'          => 'FI632106',
         'fp_item'         => $qty.' produk',
         'fp_comments'     => 'Pembelian '.$qty.' produk',
         'track_id'        => $keranjang_id,

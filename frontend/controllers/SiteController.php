@@ -387,8 +387,12 @@ class SiteController extends Controller
     public function actionSciSecure()
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        
         $modelApi = new Api();
-        return $modelApi->api_wallet();
+        $data = $modelApi->api_wallet($_POST);
+        if (isset($data->fp_sci_link)) {
+            $this->redirect($data->fp_sci_link);
+        } else {
+            return $data;
+        }
     }
 }
