@@ -347,7 +347,7 @@ class SiteController extends Controller
      public function actionPembayaran() {
        $modelApi = new Api();
        return $this->renderAjax('transaksi/pembayaran', [
-         'id' => $_GET['nomor']
+         'id' => '1'
        ]);
      }
 
@@ -376,7 +376,6 @@ class SiteController extends Controller
        }
        $this->redirect('@web/site/pesanan');
      }
-
 
     /**
      * Keranjang action.
@@ -407,9 +406,9 @@ class SiteController extends Controller
             }
             $this->redirect($data->fp_sci_link);
         } elseif (isset($data->fp_sci_qris)) {
-            $nama_qr = 'qr-code-'.$data->fp_sci_randkey;
+            $nama_qr = 'qr-code-'.$data->fp_sci_randkey.'png';
             $qrCode  = (new QrCode($data->fp_sci_qris))->setSize(250)->setMargin(5)->useForegroundColor(00, 000, 000);
-            $qrCode->writeFile(Yii::getAlias('@uploadsQrCode').'/'.$nama_qr.'.png');
+            $qrCode->writeFile(Yii::getAlias('@uploadsQrCode').'/'.$nama_qr);
             if (Yii::$app->user->identity->id) {
                 $data_pembayaran = [
                     'harga_produk' => 0
@@ -423,9 +422,20 @@ class SiteController extends Controller
                 $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $data_pembayaran, $_POST, $transaksi);
             }
             $this->redirect('@web/site/pesanan');
-            // header('Content-Type: '.$qrCode->getContentType());
-            // echo $qrCode->writeString();
-            // return $qr;
         } 
+    }
+
+
+    /**
+     * Keranjang action.
+     *
+     * @return string|Response
+     */
+    public function actionQrCode()
+    {
+        $modelApi = new Api();
+        return $this->renderAjax('pesanan/detailQrCode', [
+            'kode_transaksi' => $_GET['data']
+        ]);
     }
 }

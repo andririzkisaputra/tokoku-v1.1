@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Url;
+use yii\bootstrap4\Modal;
 
 $this->title = 'Pesanan';
 
@@ -41,7 +42,8 @@ $this->registerJs("
             });
             array_keranajang = array_keranajang.join('');
             html  = array_keranajang.toString();
-            array.push('<div class=".'"container-keranjang justify-content"'.">'
+            array.push(
+              '<div class=".'"container-keranjang justify-content"'.">'
                 +'<div>'
                   +'<b>'+item.kode_transaksi+'</b>'
                 +'</div>'
@@ -76,9 +78,32 @@ $this->registerJs("
                   +'</div>'
                 +'</div>'
               +'</div>'
-              +'</div>');
-              array_keranajang = [];
-              html  = '';
+            );
+            if (item.pembayaran_id == ".'"1"'.") {
+              array.push(
+                '<div class=".'"container-keranjang row"'." style=".'"width: 100%"'." >'
+                  +'<div class=".'""'." style=".'"width: 50%;"'." >'
+                    +'<button class=".'"btn btn-success"'." style=".'"margin: 0px 20px 0px 0px;"'.">Bukti Bayar</button>'
+                  +'</div>'
+                  +'<div class=".'""'." style=".'"width: 50%; text-align: end;"'." >'
+                    +'<button class=".'"btn btn-info bayar"'." style=".'"margin: 0px 20px 0px 0px;"'." data-value='+item.url_bayar+'>Bayar</button>'
+                  +'</div>'
+                +'</div>'
+              );
+            } else if (item.pembayaran_id == ".'"3"'.") {
+              array.push(
+                '<div class=".'"container-keranjang row"'." style=".'"width: 100%"'." >'
+                  +'<div class=".'""'." style=".'"width: 50%;"'." >'
+                    +'<button class=".'"btn btn-success"'." style=".'"margin: 0px 20px 0px 0px;"'.">Bukti Bayar</button>'
+                  +'</div>'
+                  +'<div class=".'""'." style=".'"width: 50%; text-align: end;"'." >'
+                    +'<button class=".'"btn btn-info qr_code showModalButton"'." style=".'"margin: 0px 20px 0px 0px;"'." value=".'"qr-code?data='."'+item.kode_transaksi+'".'"'.">Bayar</button>'
+                  +'</div>'
+                +'</div>'
+              );
+            }
+            array_keranajang = [];
+            html  = '';
           });
           array = array.join('');
           html  = array.toString();
@@ -96,6 +121,12 @@ $this->registerJs("
         }
     });
   }
+
+
+  $(document).on('click', '.bayar', function() {
+    var data = $(this).data(".'"value"'.");
+    location.href=data;
+  });
 
 ");
 ?>
@@ -150,3 +181,13 @@ $this->registerJs("
     </div>
   </div> -->
 </div>
+<?php
+  Modal::begin([
+    'id'=>'modal',
+    'size'=>'modal-md',
+  ]);
+
+  echo "<div id='modalContent'></div>";
+
+  Modal::end();
+?>

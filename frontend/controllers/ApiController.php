@@ -354,4 +354,19 @@ class ApiController extends Controller
       return $result;
     }
 
+    /**
+     * QrCode action.
+     *
+     * @return string|Response
+    */
+    public function actionQrCode()
+    {
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $modelApi       = new Api();
+      $data           = $modelApi->get_tabel_all('transaksi', ['=', 'kode_transaksi', $_POST['kode_transaksi']]);
+      $result['data'] = $data;
+      return $result;
+    }
+    
+
 }
