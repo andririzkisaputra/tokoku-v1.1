@@ -16,9 +16,7 @@ $this->registerJs("
         type     : 'POST',
         url      : '".Url::base(true)."/api/get-transaksi',
         dataType : 'JSON',
-        data     : {
-          'nomor' : ".$nomor."
-        },
+        data     : {},
         success: function(res){
           let total       = 0;
           let html        = '';
@@ -107,7 +105,7 @@ $this->registerJs("
           }
 
           array.push(
-            '<form method=".'"POST"'." action=".'"sci-secure?"'.">'
+            '<form method=".'"POST"'." action=".'"sci-secure"'.">'
               +'<input type=".'"hidden"'." name=".'"fp_acc"'." value='+res.fasapay_data.fp_acc+' />'
               +'<input type=".'"hidden"'." name=".'"fp_item"'." value='+res.fasapay_data.fp_item+' />'
               +'<input type=".'"hidden"'." name=".'"fp_comments"'." value='+res.fasapay_data.fp_comments+' />'
@@ -122,8 +120,8 @@ $this->registerJs("
               +'<input type=".'"hidden"'." name=".'"fp_amnt"'." value='+res.fasapay_data.fp_amnt+' />'
               +'<input type=".'"hidden"'." name=".'"track_id"'." value='+res.fasapay_data.track_id+' />'
               +'<input type=".'"hidden"'." name=".'"order_id"'." value='+res.fasapay_data.order_id+' />'
-              +'<div style=".'"text-align: end; margin: 5px 0px 0px 0px"'.">'
-                +'<input class=".'"btn btn-success"'." type=".'"submit"'." value=".'"Pesan"'.">'
+              +'<div style=".'"text-align: center; margin: 5px 0px 0px 0px"'.">'
+                +'<button class=".'"btn btn-info"'." type=".'"submit"'.">Pesan</button>'
               +'</div>'
             +'</form>'
           );

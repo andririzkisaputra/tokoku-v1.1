@@ -93,7 +93,7 @@ $this->registerJs("
           },
           success: function(res){
             _getData();
-						location.href = ".'"site/transaksi?nomor="'."+res.data;
+						location.href = ".'"site/transaksi"'.";
             return true;
           },
           error: function(){
