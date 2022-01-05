@@ -349,7 +349,7 @@ class Api extends Model
     return $update->delete();
   }
 
-  public function api_wallet($post)
+  public function fasapay($post)
   {
     $data['fp_sci_version']  = 3;
     $data['fp_acc']          = $post['fp_acc'];
@@ -360,8 +360,11 @@ class Api extends Model
     $data['fp_expire_at']    = strtotime('+2 day');
     $data['fp_item']         = $post['fp_item'];
     $data['fp_merchant_ref'] = $post['fp_merchant_ref'];
-    $data['fp_payment_mode'] = 'WALLET';
-    // $data['fp_payment_mode'] = 'QRIS';
+    if ($post['pembayaran_id'] == '1') {
+      $data['fp_payment_mode'] = 'WALLET';
+    } elseif ($post['pembayaran_id'] == '3') {
+      $data['fp_payment_mode'] = 'QRIS';
+    }
     $data['fp_store']        = 'Pasar malam';
     $data['fp_store_link']   = '';
     $data['time_window']     = floor(time()/30);
@@ -370,7 +373,8 @@ class Api extends Model
     $data['track_id']        = $post['track_id'];
     $data['order_id']        = $post['order_id'];
     $data['fp_sci_link']     = 'true';
-    
+    // print_r($string);
+    // exit;
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_HTTPHEADER,
     array(

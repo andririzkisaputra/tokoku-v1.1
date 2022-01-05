@@ -18,6 +18,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use app\models\Transaksi;
 use app\models\Tagihan;
+use Da\QrCode\QrCode;
 
 /**
  * Site controller
@@ -388,8 +389,10 @@ class SiteController extends Controller
         $modelApi = new Api();
         $modelTransaksi = new Transaksi();
         $modelTagihan   = new Tagihan();
-        $data = $modelApi->api_wallet($_POST);
+        $data = $modelApi->fasapay($_POST);
         if (isset($data->fp_sci_link)) {
+            print_r($data->fp_sci_link);
+            exit;
             if (Yii::$app->user->identity->id) {
                 $data_pembayaran = [
                     'harga_produk' => 0
@@ -403,8 +406,13 @@ class SiteController extends Controller
                 $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $data_pembayaran, $_POST, $transaksi);
             }
             $this->redirect($data->fp_sci_link);
-        } else {
-            return $data;
-        }
+        } elseif (isset($data->fp_sci_qris)) {
+            $qrCode = (new QrCode($data->fp_sci_qris))->setSize(250)->setMargin(5)->useForegroundColor(00, 000, 000);
+            $qrCode->writeFile(Yii::getAlias('@uploads').'/code.png'); // writer defaults to PNG when none is specified
+            header('Content-Type: '.$qrCode->getContentType());
+            echo $qrCode->writeString();
+            // echo '<img src="' . $qrCode->writeDataUri() . '">';
+            // return $qr;
+        } 
     }
 }

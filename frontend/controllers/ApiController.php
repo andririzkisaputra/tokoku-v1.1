@@ -65,7 +65,7 @@ class ApiController extends Controller
 			// );
       $where      = ['=', 'produk.is_delete' , '1'];
       $modelApi = new Api();
-			$query		= $modelApi->get_join_tabel($where, false, 9, 0, 'produk.updated_at', 'produk', 'kategori', 'kategori.kategori_id = produk.kategori_id');
+			$query		= $modelApi->get_join_tabel($where, false, false, 0, 'produk.updated_at', 'produk', 'kategori', 'kategori.kategori_id = produk.kategori_id');
 			foreach ($query as $key => $value) {
 				$query[$key]['no']	      = $key+1;
 				$query[$key]['harga_f']	  = "Rp ".number_format($value['harga'],0,',','.');
@@ -267,8 +267,8 @@ class ApiController extends Controller
       $total  = $total+$harga+$ongkir;
       $result['fasapay_data'] = [
         'fp_acc'          => 'FI632106',
-        'fp_item'         => $qty.' produk',
-        'fp_comments'     => 'Pembelian '.$qty.' produk',
+        'fp_item'         => (string)($qty.' produk'),
+        'fp_comments'     => (string)('Pembelian '.$qty.' produk'),
         'track_id'        => $keranjang_id,
         'order_id'        => 'TKU'.rand(10000, 99999),
         'fp_merchant_ref' => 'TKO'.rand(10000, 99999),
