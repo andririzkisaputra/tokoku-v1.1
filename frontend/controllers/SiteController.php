@@ -407,11 +407,24 @@ class SiteController extends Controller
             }
             $this->redirect($data->fp_sci_link);
         } elseif (isset($data->fp_sci_qris)) {
-            $qrCode = (new QrCode($data->fp_sci_qris))->setSize(250)->setMargin(5)->useForegroundColor(00, 000, 000);
-            $qrCode->writeFile(Yii::getAlias('@uploads').'/code.png'); // writer defaults to PNG when none is specified
-            header('Content-Type: '.$qrCode->getContentType());
-            echo $qrCode->writeString();
-            // echo '<img src="' . $qrCode->writeDataUri() . '">';
+            $nama_qr = 'qr-code-'.$data->fp_sci_randkey;
+            $qrCode  = (new QrCode($data->fp_sci_qris))->setSize(250)->setMargin(5)->useForegroundColor(00, 000, 000);
+            $qrCode->writeFile(Yii::getAlias('@uploadsQrCode').'/'.$nama_qr.'.png');
+            if (Yii::$app->user->identity->id) {
+                $data_pembayaran = [
+                    'harga_produk' => 0
+                ];
+                $keranjang = $modelApi->get_tabel_all('keranjang', ['created_by' => Yii::$app->user->identity->id, 'is_selected' => '0']);
+                foreach ($keranjang as $key => $value) {
+                    $data_pembayaran['pembayaran_id'] = $value['pembayaran_id'];
+                    $data_pembayaran['harga_produk']  = $data_pembayaran['harga_produk']+($value['harga']*$value['qty']);
+                }
+                $transaksi = $modelApi->simpan_transaksi($modelTransaksi, $data_pembayaran, $_POST, $nama_qr);
+                $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $data_pembayaran, $_POST, $transaksi);
+            }
+            $this->redirect('@web/site/pesanan');
+            // header('Content-Type: '.$qrCode->getContentType());
+            // echo $qrCode->writeString();
             // return $qr;
         } 
     }

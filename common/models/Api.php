@@ -319,7 +319,11 @@ class Api extends Model
     $model->harga_produk     = (string)$keranjang['harga_produk'];
     $model->status_transaksi = '1';
     $model->ongkir           = '0';
-    $model->url_bayar        = $url;
+    if ($data['pembayaran_id'] == '1') {
+      $model->url_bayar      = $url;
+    } elseif ($data['pembayaran_id'] == '3') {
+      $model->qr_code        = $url;
+    }
     $model->created_by       = $created_by;
     $model->save();
     return $model->transaksi_id;
