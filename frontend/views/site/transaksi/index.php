@@ -18,6 +18,7 @@ $this->registerJs("
         dataType : 'JSON',
         data     : {},
         success: function(res){
+          console.log(res.data);
           let total       = 0;
           let html        = '';
           let array       = [];
@@ -120,12 +121,9 @@ $this->registerJs("
               +'<input type=".'"hidden"'." name=".'"fp_amnt"'." value='+res.fasapay_data.fp_amnt+' />'
               +'<input type=".'"hidden"'." name=".'"track_id"'." value='+res.fasapay_data.track_id+' />'
               +'<input type=".'"hidden"'." name=".'"order_id"'." value='+res.fasapay_data.order_id+' />'
-              +'<div style=".'"text-align: center; margin: 5px 0px 0px 0px"'.">'
-                +'<button class=".'"btn btn-info"'." type=".'"submit"'.">Pesan</button>'
-              +'</div>'
             +'</form>'
           );
-
+          document.getElementById(".'"pesanan"'.").disabled = ((res.data[0].pembayaran) ? false : true);
           array = array.join('');
           html  = array.toString();
           $('#list-total').html(html);
@@ -161,6 +159,10 @@ $this->registerJs("
   <!-- <form method="POST" action="https://sandbox.fasapay.com/sci/"> -->
     <!-- total -->
     <div class="container-keranjang" id="list-total"></div>
+    
+    <div style="text-align: center; margin: 15px 0px 0px 0px">
+      <button id="pesanan" class="btn btn-info" type="submit">Pesan</button>
+    </div>'
     <!-- end total -->
     <!-- <input type="hidden" name="fp_acc" value="FPX4593"> -->
     <!-- <input type="hidden" name="fp_item" value="2 pieces of Clothes"> -->
