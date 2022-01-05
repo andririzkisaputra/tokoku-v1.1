@@ -386,10 +386,24 @@ class SiteController extends Controller
      */
     public function actionSciSecure()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        // \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $modelApi = new Api();
+        $modelTransaksi = new Transaksi();
+        $modelTagihan   = new Tagihan();
         $data = $modelApi->api_wallet($_POST);
         if (isset($data->fp_sci_link)) {
+            if (Yii::$app->user->identity->id) {
+                $data_pembayaran = [
+                    'harga_produk' => 0
+                ];
+                $keranjang = $modelApi->get_tabel_all('keranjang', ['created_by' => Yii::$app->user->identity->id, 'is_selected' => '0']);
+                foreach ($keranjang as $key => $value) {
+                    $data_pembayaran['pembayaran_id'] = $value['pembayaran_id'];
+                    $data_pembayaran['harga_produk']  = $data_pembayaran['harga_produk']+($value['harga']*$value['qty']);
+                }
+                $transaksi = $modelApi->simpan_transaksi($modelTransaksi, $data_pembayaran, $_POST, $data->fp_sci_link);
+                $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $data_pembayaran, $_POST, $transaksi);
+            }
             $this->redirect($data->fp_sci_link);
         } else {
             return $data;

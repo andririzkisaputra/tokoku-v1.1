@@ -312,13 +312,14 @@ class Api extends Model
     return $update->save();
   }
 
-  public function simpan_transaksi($model, $keranjang, $data)
+  public function simpan_transaksi($model, $keranjang, $data, $url)
   {
     $created_by              = Yii::$app->user->identity->id;
     $model->kode_transaksi   = (string)$data['order_id'];
     $model->harga_produk     = (string)$keranjang['harga_produk'];
-    $model->status_transaksi = ($keranjang['pembayaran_id'] == '1') ? '2' : '1';
-    $model->ongkir           = '10000';
+    $model->status_transaksi = '1';
+    $model->ongkir           = '0';
+    $model->url_bayar        = $url;
     $model->created_by       = $created_by;
     $model->save();
     return $model->transaksi_id;
@@ -334,8 +335,8 @@ class Api extends Model
 
     $model->transaksi_id     = $transaksi_id;
     $model->kode_tagihan     = (string)$data['fp_merchant_ref'];
-    $model->status_tagihan   = ($keranjang['pembayaran_id'] == '1') ? '2' : '1';
-    $model->total_bayar      = (string)($keranjang['harga_produk']+10000);
+    $model->status_tagihan   = '1';
+    $model->total_bayar      = (string)($keranjang['harga_produk']+0);
     $model->created_by       = $created_by;
     return $model->save();
   }
@@ -353,7 +354,7 @@ class Api extends Model
     $data['fp_sci_version']  = 3;
     $data['fp_acc']          = $post['fp_acc'];
     $data['fp_acc_from']     = '';
-    $data['fp_amnt']         = '10';
+    $data['fp_amnt']         = $post['fp_amnt'];
     $data['fp_comments']     = $post['fp_comments'];
     $data['fp_currency']     = 'IDR';
     $data['fp_expire_at']    = strtotime('+2 day');
@@ -367,7 +368,7 @@ class Api extends Model
     $string                  = implode("|",$data);
     $data['fp_request_hmac'] = hash_hmac('sha256', $string, '123456');
     $data['track_id']        = $post['track_id'];
-    $data['order_id']        = rand(10000, 99999);
+    $data['order_id']        = $post['order_id'];
     $data['fp_sci_link']     = 'true';
     
     $curl = curl_init();

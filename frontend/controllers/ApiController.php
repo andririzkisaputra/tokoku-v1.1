@@ -263,7 +263,7 @@ class ApiController extends Controller
         $keranjang_id             = $value['keranjang_id'];
         // $total                    = $total+($harga+$admin);
 			}
-      $ongkir = 10000;
+      $ongkir = 0;
       $total  = $total+$harga+$ongkir;
       $result['fasapay_data'] = [
         'fp_acc'          => 'FI632106',
@@ -272,12 +272,6 @@ class ApiController extends Controller
         'track_id'        => $keranjang_id,
         'order_id'        => 'TKU'.rand(10000, 99999),
         'fp_merchant_ref' => 'TKO'.rand(10000, 99999),
-        // 'fp_success_url'  => 'http://192.168.9.98/tokoku/frontend/web/site/keranjang',
-        // 'fp_fail_url'     => 'http://192.168.9.98/tokoku/frontend/web/',
-        // 'fp_status_url'   => 'http://192.168.9.98/tokoku/frontend/web/',
-        // 'fp_success_url'  => 'http://192.168.100.4/tokoku/frontend/web/site/success?transaksi='.json_encode($query, JSON_FORCE_OBJECT),
-        // 'fp_fail_url'     => 'http://192.168.100.4/tokoku/frontend/web/',
-        // 'fp_status_url'   => 'http://192.168.100.4/tokoku/frontend/web/',
         'fp_amnt'         => $total,
       ];
       $result['rincian'] = [
