@@ -390,8 +390,6 @@ class SiteController extends Controller
         $modelTagihan   = new Tagihan();
         $data = $modelApi->fasapay($_POST);
         if (isset($data->fp_sci_link)) {
-            print_r($data->fp_sci_link);
-            exit;
             if (Yii::$app->user->identity->id) {
                 $data_pembayaran = [
                     'harga_produk' => 0

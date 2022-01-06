@@ -18,6 +18,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
       'js/modal.js',
+    //   'js/page/home/index.js',
+    //   'js/page/keranjang/index.js',
       // 'js/popper.min.js',
       // 'js/bootstrap.js',
       // 'js/custom.js',

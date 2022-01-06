@@ -48,13 +48,14 @@ AppAsset::register($this);
             .navbar-brand:hover{
                 color:white;
             }
-            .nav-link:hover {
-                color: #023f6a;
-                background-color: #eeeeee !important;
-            }
             .nav-link {
                 font-weight: 500;
                 font-family: monospace;
+                font-size: 13px;
+            }
+            .nav-link:hover {
+                color: #023f6a;
+                background-color: #eeeeee !important;
             }
         </style>
 
@@ -67,7 +68,7 @@ AppAsset::register($this);
             NavBar::begin([
                 'brandLabel' => 'TokoKu',
                 'brandUrl' => Yii::$app->homeUrl,
-                'options' => ['class' => 'navbar-expand-md bg-menu mynavbar navbar-fixed-top', 'id' => 'navbar-brand'],
+                'options' => ['class' => 'navbar-expand-md bg-menu mynavbar navbar-fixed-top navbar', 'id' => 'navbar-brand'],
             ]);
             if (Yii::$app->user->isGuest) {
               echo Nav::widget([
