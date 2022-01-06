@@ -406,7 +406,7 @@ class SiteController extends Controller
             }
             $this->redirect($data->fp_sci_link);
         } elseif (isset($data->fp_sci_qris)) {
-            $nama_qr = 'qr-code-'.$data->fp_sci_randkey.'png';
+            $nama_qr = 'qr-code-'.$data->fp_sci_randkey.'.png';
             $qrCode  = (new QrCode($data->fp_sci_qris))->setSize(250)->setMargin(5)->useForegroundColor(00, 000, 000);
             $qrCode->writeFile(Yii::getAlias('@uploadsQrCode').'/'.$nama_qr);
             if (Yii::$app->user->identity->id) {

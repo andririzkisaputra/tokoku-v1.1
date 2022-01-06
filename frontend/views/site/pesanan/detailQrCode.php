@@ -27,18 +27,19 @@ $this->registerJs("
                 let gambar_f = '';
                 let array    = [];
                 console.log(res.data);
-                res.data.map((item, index) => {
-                    gambar_f = '/e-commerce/uploads/frontend/qr_code/'+item.qr_code;
+                // res.data.map((item, index) => {
+                    gambar_f = '/e-commerce/uploads/frontend/qr_code/'+res.data.qr_code;
                     array.push(
                         '<b>QR Code</b>'
                         +'<div style=".'"margin: 10px"'.">'
                             +'<img src='+gambar_f+'>'
                         +'</div>'
-                        +'<b>Kode Transaksi</b><p>'+item.kode_transaksi+'</p>'
-                        +'<b>Produk</b><p>Rp '+item.harga_produk+'</p>'
-                        +'<b>Ongkir</b><p>Rp '+item.ongkir+'</p>'
+                        +'<b>Kode Transaksi</b><p>'+res.data.kode_transaksi+'</p>'
+                        +'<b>Produk</b><p>'+res.data.harga_produk_f+'</p>'
+                        +'<b>Ongkir</b><p>'+res.data.ongkir_f+'</p>'
+                        +'<b>Total</b><p>'+res.data.total_f+'</p>'
                     );
-                });
+                // });
                 array = array.join('');
                 html  = array.toString();
                 $('#list-qr-code').html(html);

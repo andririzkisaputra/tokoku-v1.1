@@ -363,7 +363,12 @@ class ApiController extends Controller
     {
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
       $modelApi       = new Api();
-      $data           = $modelApi->get_tabel_all('transaksi', ['=', 'kode_transaksi', $_POST['kode_transaksi']]);
+      $data           = $modelApi->get_tabel_by('transaksi', ['=', 'kode_transaksi', $_POST['kode_transaksi']]);
+      $data['harga_produk_f'] = "Rp ".number_format($data['harga_produk'],0,',','.');
+      $data['ongkir_f']       = "Rp ".number_format($data['ongkir'],0,',','.');
+      $data['total']          = $data['harga_produk']+$data['ongkir'];
+      $data['total_f']        = "Rp ".number_format($data['total'],0,',','.');
+      
       $result['data'] = $data;
       return $result;
     }

@@ -14,6 +14,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/style.css',
+        'css/bootstrap-glyphicons.css'
     ];
     public $js = [
       'js/modal.js',
