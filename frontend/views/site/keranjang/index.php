@@ -24,7 +24,7 @@ $this->registerJsFile(
   </div>
   <br>
   <div class="empty-button btn-box" style="text-align: center">
-    <a class="btn btn-success" href="javascript:void(0)" id="beli">Pesanan</a>
+    <a class="btn btn-info" href="javascript:void(0)" id="beli">Pesanan</a>
   </div>
 
 </div>

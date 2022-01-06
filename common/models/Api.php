@@ -7,6 +7,7 @@ use yii\base\Model;
 // use app\models\Produk;
 use backend\models\Produk;
 use app\models\Keranjang;
+use app\models\Tagihan;
 use yii\db\Query;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
@@ -408,6 +409,26 @@ class Api extends Model
       7 => 'Selesai',
     ];
     return $data[$value];
+  }
+
+
+  public function kirim_bukti_bayar($model, $post)
+  {
+    $created_by  = Yii::$app->user->identity->id;
+    $gambar      = UploadedFile::getInstance($model, 'bukti_bayar');
+    $update = Tagihan::findOne([
+      'kode_tagihan'   => $post['kode_tagihan'],
+      'status_tagihan' => '1',
+      'created_by'     => $created_by
+    ]);
+    $gambar         = UploadedFile::getInstance($model, 'bukti_bayar');
+    $nama_format    = $post['kode_tagihan'].' '.date('Y-m-d H-s-i');
+    print_r($gambar);
+    exit;
+    $nama_format    = str_replace(" ", "-", $nama_format).'.'.$gambar->extension;
+    $gambar->saveAs(Yii::getAlias('@uploads').'/'.$nama_format);
+    $update->gambar = $nama_format;
+    return $update->save();
   }
 
 }

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Api;
 use app\models\Keranjang;
+use app\models\Tagihan;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -355,6 +356,22 @@ class ApiController extends Controller
     }
 
     /**
+     * Get Tagihan action.
+     *
+     * @return string|Response
+    */
+    public function actionGetTagihan()
+    {
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $modelApi       = new Api();
+      $data           = $modelApi->get_tabel_by('tagihan', ['=', 'transaksi_id', $_POST['kode']]);
+      $data['total_bayar_f'] = "Rp ".number_format($data['total_bayar'],0,',','.');
+      
+      $result['data'] = $data;
+      return $result;
+    }
+
+    /**
      * QrCode action.
      *
      * @return string|Response
@@ -371,7 +388,23 @@ class ApiController extends Controller
       
       $result['data'] = $data;
       return $result;
+    }  
+
+    /**
+     * Get Tagihan action.
+     *
+     * @return string|Response
+    */
+    public function actionKirimBuktiBayar()
+    {
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      $modelApi = new Api();
+      $model    = new Tagihan();
+      $data     = $modelApi->kirim_bukti_bayar($model, $_POST);
+      
+      $result['success'] = true;
+      $result['data']    = $data;
+      return $result;
     }
-    
 
 }

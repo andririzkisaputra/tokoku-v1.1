@@ -423,9 +423,8 @@ class SiteController extends Controller
         } 
     }
 
-
     /**
-     * Keranjang action.
+     * QrCode action.
      *
      * @return string|Response
      */
@@ -434,6 +433,20 @@ class SiteController extends Controller
         $modelApi = new Api();
         return $this->renderAjax('pesanan/detailQrCode', [
             'kode_transaksi' => $_GET['data']
+        ]);
+    }
+
+    /**
+     * BuktiBayar action.
+     *
+     * @return string|Response
+     */
+    public function actionBuktiBayar()
+    {
+        $model = new Tagihan();
+        return $this->renderAjax('pesanan/buktiBayar', [
+            'model' => $model,
+            'kode'  => $_GET['data']
         ]);
     }
 }
