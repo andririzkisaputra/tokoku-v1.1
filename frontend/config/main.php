@@ -9,12 +9,17 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'bootstrap' => ['log'],
+    'modules' => [
+        // 'uploader' => [
+        //    'class' => 'app\modules\uploader\Uploader',
+        // ]   
+    ],
     'components' => [
         'request' => [
             'csrfParam'            => '_csrf-frontend',
-            'enableCsrfValidation' => false
+            // 'enableCsrfValidation' => false
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -45,10 +50,10 @@ return [
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
-        'cart' => [
-            'class' => 'yz\shoppingcart\ShoppingCart',
-            'cartId' => 'my_application_cart',
-        ]
+        // 'cart' => [
+        //     'class' => 'yz\shoppingcart\ShoppingCart',
+        //     'cartId' => 'my_application_cart',
+        // ]
     ],
     'params' => $params,
 ];

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "tagihan".
@@ -10,11 +11,7 @@ use Yii;
  * @property int $tagihan_id
  * @property int|null $transaksi_id
  * @property string|null $kode_tagihan
- * @property string|null $status_tagihan 1. menunggu pembayaran 
- 2. menunggu konfirmasi pembayaran 
- 3. dibayar 
- 4. batal 
- 5. gagal	
+ * @property string|null $status_tagihan 1. menunggu pembayaran 2. menunggu konfirmasi pembayaran 3. dibayar 4. batal 5. gagal	
  * @property string|null $total_bayar
  * @property string|null $bukti_bayar
  * @property int|null $created_by
@@ -34,13 +31,23 @@ class Tagihan extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+      return [
+          TimestampBehavior::className(),
+      ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            [['transaksi_id', 'created_by', 'created_at', 'updated_at'], 'integer'],
-            [['status_tagihan'], 'string'],
-            [['kode_tagihan', 'total_bayar', 'bukti_bayar'], 'string', 'max' => 255],
-            ['bukti_bayar', 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            [['bukti_bayar'], 'safe'],
+            [['created_at', 'updated_at'], 'integer'],
+            [['kode_tagihan', 'total_bayar'], 'string', 'max' => 255],
+            [['bukti_bayar'], 'file', 'extensions'=>'jpg, gif, png, jpeg']
         ];
     }
 

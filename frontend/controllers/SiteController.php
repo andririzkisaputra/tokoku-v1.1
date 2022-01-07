@@ -435,7 +435,7 @@ class SiteController extends Controller
             'kode_transaksi' => $_GET['data']
         ]);
     }
-
+    
     /**
      * BuktiBayar action.
      *
@@ -443,10 +443,18 @@ class SiteController extends Controller
      */
     public function actionBuktiBayar()
     {
-        $model = new Tagihan();
-        return $this->renderAjax('pesanan/buktiBayar', [
-            'model' => $model,
-            'kode'  => $_GET['data']
-        ]);
+        $modelApi     = new Api();
+        $modelTagihan = new Tagihan();
+        if ($modelTagihan->load(Yii::$app->request->post())) {
+            $this->redirect('@web/site/pesanan');
+        } else {
+            $data                  = $modelApi->get_tabel_by('tagihan', ['=', 'transaksi_id', $_GET['data']]);
+            $data['total_bayar_f'] = "Rp ".number_format($data['total_bayar'],0,',','.');      
+            return $this->renderAjax('pesanan/buktiBayar', [
+                'model' => $modelTagihan,
+                'kode'  => $_GET['data'],
+                'data'  => $data
+            ]);
+        }
     }
 }

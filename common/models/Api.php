@@ -4,8 +4,8 @@ namespace common\models;
 
 use Yii;
 use yii\base\Model;
-// use app\models\Produk;
-use backend\models\Produk;
+use app\models\Produk;
+// use backend\models\Produk;
 use app\models\Keranjang;
 use app\models\Tagihan;
 use yii\db\Query;
@@ -165,7 +165,7 @@ class Api extends Model
       $id = $where['produk_id'];
       $cart = Yii::$app->cart;
       // if ($id) {
-        $model = ProdukForm::findOne([
+        $model = Produk::findOne([
           'produk_id' => $where['produk_id'],
         ]);
         // $model = Produk::findOne($where);
@@ -255,11 +255,11 @@ class Api extends Model
   {
     $created_by  = Yii::$app->user->identity->id;
     $gambar      = UploadedFile::getInstance($model, 'gambar');
-    $update = Produk::findOne([
+    $update      = Produk::findOne([
       'produk_id' => $produk['produk_id'],
     ]);
     if ($gambar) {
-      $gambar         = UploadedFile::getInstance($model, 'gambar');
+      // $gambar         = UploadedFile::getInstance($model, 'gambar');
       $nama_format    = strtolower($produk['nama_produk'].' '.date('Y-m-d H-s-i'));
       $nama_format    = str_replace(" ", "-", $nama_format).'.'.$gambar->extension;
       $gambar->saveAs(Yii::getAlias('@uploads').'/'.$nama_format);
@@ -286,7 +286,7 @@ class Api extends Model
 
   public function delete_produk($produk_id)
   {
-    $update = ProdukForm::findOne([
+    $update = Produk::findOne([
       'produk_id' => $produk_id,
     ]);
     $update->is_delete  = '0';
@@ -411,23 +411,23 @@ class Api extends Model
     return $data[$value];
   }
 
-
   public function kirim_bukti_bayar($model, $post)
   {
+    $modelTagihan = new Tagihan();
+    var_dump(\yii\web\UploadedFile::getInstance($modelTagihan, 'bukti_bayar'));
+    // $bukti_bayar  = UploadedFile::getInstance($model, 'bukti_bayar');
     $created_by  = Yii::$app->user->identity->id;
-    $gambar      = UploadedFile::getInstance($model, 'bukti_bayar');
-    $update = Tagihan::findOne([
+    $update      = Tagihan::findOne([
       'kode_tagihan'   => $post['kode_tagihan'],
       'status_tagihan' => '1',
       'created_by'     => $created_by
     ]);
-    $gambar         = UploadedFile::getInstance($model, 'bukti_bayar');
-    $nama_format    = $post['kode_tagihan'].' '.date('Y-m-d H-s-i');
-    print_r($gambar);
+    print_r($update->bukti_bayar);
     exit;
-    $nama_format    = str_replace(" ", "-", $nama_format).'.'.$gambar->extension;
+    $nama_format    = $post['kode_tagihan'].' '.date('Y-m-d H-s-i');
+    $nama_format    = str_replace(" ", "-", $nama_format).'.jpg';
     $gambar->saveAs(Yii::getAlias('@uploads').'/'.$nama_format);
-    $update->gambar = $nama_format;
+    $update->bukti_bayar = $nama_format;
     return $update->save();
   }
 

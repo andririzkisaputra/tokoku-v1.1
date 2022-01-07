@@ -6,39 +6,10 @@ use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use common\models\User;
 
-$this->registerJs("
-  $('#simpan-produk').click(function(e) {
-    var formData = new FormData($('form')[1]);
-    var nama_produk = $('#nama_produk').val();
-    var qty         = $('#qty').val();
-    var gambar      = $('#gambar').val();
-    var nama_kategori      = $('#nama_kategori').val();
-    if (nama_produk && qty && gambar) {
-      $.ajax({
-          type     : 'POST',
-          url      : '".Url::base(true)."/api/post-produk',
-          dataType : 'JSON',
-          data     : formData,
-          success: function(data){
-            $('#nama_produk').val('');
-            $('#qty').val('');
-            $('#gambar').val('');
-            $('#tabel_produk').DataTable().ajax.reload();
-            return true;
-          },
-          error: function(){
-            alert('ERROR at PHP side!!');
-            return false;
-          },
-          cache: false,
-          contentType: false,
-          processData: false
-      });
-    } else {
-      return false;
-    }
-  });
-");
+$this->registerJsFile(
+  '@web/js/page/produk/tambahDataProduk.js',
+  ['depends' => [\yii\web\JqueryAsset::class]]
+);
 ?>
 
 <div class="site-index">

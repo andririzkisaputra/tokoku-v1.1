@@ -398,13 +398,27 @@ class ApiController extends Controller
     public function actionKirimBuktiBayar()
     {
       \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-      $modelApi = new Api();
-      $model    = new Tagihan();
-      $data     = $modelApi->kirim_bukti_bayar($model, $_POST);
-      
-      $result['success'] = true;
-      $result['data']    = $data;
-      return $result;
+      $request      = \Yii::$app->getRequest();
+      $simpan       = false;
+      $modelApi     = new Api();
+      $modelTagihan = new Tagihan();
+      // var_dump(\yii\web\UploadedFile::getInstance($modelTagihan, 'bukti_bayar'));
+      // $post   = $_FILES;
+      $post   = $_POST;
+      // $post   = Yii::$app->request->post();
+      // print_r($post);
+      // exit;
+      // if(Yii::$app->request->isAjax && $request->isPost && $modelTagihan->load(Yii::$app->request->post()))
+      // {
+        $simpan = $modelApi->kirim_bukti_bayar($modelTagihan, $post);
+      // }
+      return ($simpan) ? true : false;
+    }
+
+    public function beforeAction($action) 
+    { 
+        $this->enableCsrfValidation = false; 
+        return parent::beforeAction($action); 
     }
 
 }

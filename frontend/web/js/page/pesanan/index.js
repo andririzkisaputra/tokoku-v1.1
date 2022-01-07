@@ -1,8 +1,8 @@
 $(document).ready(function() {
-    _getData();
+    _getDataPesanan();
 });
 
-function _getData() {
+function _getDataPesanan() {
     var baseUrl = window.location+'/../../api/get-pesanan';
     $.ajax({
         type     : 'POST',
