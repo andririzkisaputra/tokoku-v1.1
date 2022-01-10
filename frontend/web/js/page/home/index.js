@@ -1,13 +1,14 @@
 $(document).ready(function() {
-    _getData();
+    _getDataHome();
     // _getDataKeranjang();
 });
 
-function _getData() {
-    var keranjang = 1;
+function _getDataHome() {
+    var baseUrl = window.location+'/../api/rekomendasi-produk';
+    // var keranjang = 1;
     $.ajax({
         type     : 'POST',
-        url      : window.location+'/api/rekomendasi-produk',
+        url      : baseUrl,
         dataType : 'JSON',
         success: function(res){
             let html  = '';
@@ -71,110 +72,106 @@ function _getData() {
 }
 
 
-$(function(){
-    $(document).on('click', '.beli', function() {
-        var produk_id = $(this).attr('data');
-        if (produk_id) {
-            $.ajax({
+$(document).on('click', '.beli', function() {
+    var baseUrl = window.location+'/../api/select-keranjang';
+    var produk_id = $(this).attr('data');
+    if (produk_id) {
+        $.ajax({
+            type     : 'POST',
+            url      : baseUrl,
+            dataType : 'JSON',
+            data     : {
+            produk_id : produk_id
+            },
+            success: function(res){
+                _getDataHome();
+                location.href = "site/transaksi";
+            return true;
+            },
+                error: function(){
+                alert('ERROR at PHP side!!');
+            return false;
+            }
+        });
+    } else {
+        return false;
+    }
+});
+
+$(document).on('click', '.keranjang', function() {
+    var baseUrl = window.location+'/../api/select-keranjang';
+    var produk_id = $(this).attr('data');
+    if (produk_id) {
+        $.ajax({
                 type     : 'POST',
-                url      : window.location+'/api/select-keranjang',
+                url      : baseUrl,
                 dataType : 'JSON',
                 data     : {
                 produk_id : produk_id
-                },
-                success: function(res){
-                _getData();
-                            location.href = "site/transaksi";
+            },
+            success: function(data){
+                _getDataHome();
                 return true;
-                },
-                error: function(){
+            },
+            error: function(){
                 alert('ERROR at PHP side!!');
                 return false;
-                }
-            });
-        } else {
-            return false;
-        }
-    });
+            }
+        });
+    } else {
+        return false;
+    }
 });
 
-$(function(){
-    $(document).on('click', '.keranjang', function() {
-        var produk_id = $(this).attr('data');
-        if (produk_id) {
-            $.ajax({
+$(document).on('click', '.minKeranjang', function() {
+    var baseUrl = window.location+'/../api/keranjang';
+    var keranjang_id = $(this).attr('data');
+    if (keranjang_id) {
+        $.ajax({
                 type     : 'POST',
-                url      : window.location+'/api/select-keranjang',
-                dataType : 'JSON',
-                data     : {
-                produk_id : produk_id
-                },
-                success: function(data){
-                _getData();
-                return true;
-                },
-                error: function(){
-                alert('ERROR at PHP side!!');
-                return false;
-                }
-            });
-        } else {
-            return false;
-        }
-    });
-});
-
-$(function(){
-    $(document).on('click', '.minKeranjang', function() {
-        var keranjang_id = $(this).attr('data');
-        if (keranjang_id) {
-            $.ajax({
-                type     : 'POST',
-                url      : window.location+'/api/keranjang',
+                url      : baseUrl,
                 dataType : 'JSON',
                 data     : {
                 keranjang_id : keranjang_id,
                 is_keranjang : 0
-                },
-                success: function(data){
-                _getData();
+            },
+            success: function(data){
+                _getDataHome();
                 return true;
-                },
-                error: function(){
+            },
+            error: function(){
                 alert('ERROR at PHP side!!');
                 return false;
-                }
-            });
-        } else {
-            return false;
-        }
-    });
+            }
+        });
+    } else {
+        return false;
+    }
 });
 
 
-$(function(){
-    $(document).on('click', '.plusKeranjang', function() {
-        var keranjang_id = $(this).attr('data');
-        if (keranjang_id) {
-            $.ajax({
+$(document).on('click', '.plusKeranjang', function() {
+    var baseUrl = window.location+'/../api/keranjang';
+    var keranjang_id = $(this).attr('data');
+    if (keranjang_id) {
+        $.ajax({
                 type     : 'POST',
-                url      : window.location+'/api/keranjang',
+                url      : baseUrl,
                 dataType : 'JSON',
                 data     : {
                 keranjang_id : keranjang_id,
                 is_keranjang : 1
-                },
-                success: function(data){
-                _getData();
+            },
+            success: function(data){
+                _getDataHome();
                 return true;
-                },
-                error: function(){
+            },
+            error: function(){
                 alert('ERROR at PHP side!!');
                 return false;
-                }
-            });
-        } else {
-            return false;
-        }
-    });
+            }
+        });
+    } else {
+        return false;
+    }
 });

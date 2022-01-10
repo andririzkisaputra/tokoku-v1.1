@@ -11,6 +11,11 @@ $this->registerJsFile(
 ?>
 <div class="container">
   <div id="list-pesanan"></div>
+  <div class="empty-data heading_center" style="text-align: center">
+    <h2>
+      Tidak Ada Pesanan
+    </h2>
+  </div>
 </div>
 <?php
   Modal::begin([
@@ -19,6 +24,5 @@ $this->registerJsFile(
   ]);
 
   echo "<div id='modalContent'></div>";
-
   Modal::end();
 ?>

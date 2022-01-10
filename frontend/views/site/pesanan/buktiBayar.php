@@ -21,8 +21,8 @@ $this->registerJsFile(
         <?php $form = ActiveForm::begin([
             'id' => 'dynamic-form'
         ]); ?>
-        <?= $form->field($model, 'kode_tagihan')->textInput(['id' => 'kode_tagihan']) ?>
-        <?= $form->field($model, 'total_bayar')->textInput(['id' => 'total_bayar']) ?>
+        <?= $form->field($model, 'kode_tagihan')->textInput(['id' => 'kode_tagihan', 'readonly' => true]) ?>
+        <?= $form->field($model, 'total_bayar')->textInput(['id' => 'total_bayar', 'readonly' => true]) ?>
         <?= $form->field($model, 'bukti_bayar')->fileInput(['class' => 'btn btn-primary', 'accept' => 'image/*', 'capture' => 'camera', 'id' => 'bukti_bayar'])->label(false) ?>
         <?= Html::button('Kirim', ['class' => 'btn btn-sm btn-info', 'id' => 'kirim-bukti-bayar']) ?>
         <?php ActiveForm::end(); ?>

@@ -35,10 +35,10 @@ function _getData() {
             html  = '';
             array = [];
             html  = '<div class="row-keranjang">'
-                    +'<p>'+((res.data[0].pembayaran) ? res.data[0].pembayaran : "Metode Pembayaran")+'</p>'
-                    +'</div>'
-                    +'<div class="list-keranjang" style="text-align: end; padding: 0px 15px 0px 0px">'
-                    +'<button class="btn btn-sm btn-info showModalButton" value="'+window.location+'/../pembayaran?nomor=1">Pilih</button>'
+                        +'<p>'+((res.data[0].pembayaran) ? res.data[0].pembayaran : "Metode Pembayaran")+'</p>'
+                        +'</div>'
+                        +'<div class="list-keranjang" style="text-align: end; padding: 0px 15px 0px 0px">'
+                        +'<button class="btn btn-sm btn-info showModalButton" value="'+window.location+'/../pembayaran?nomor=1">Pilih</button>'
                     +'</div>'
             $('#metode-pembayaran').html(html);
 

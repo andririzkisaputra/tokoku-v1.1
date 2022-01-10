@@ -410,10 +410,4 @@ class ApiController extends Controller
       return ($simpan) ? true : false;
     }
 
-    public function beforeAction($action) 
-    { 
-        $this->enableCsrfValidation = false; 
-        return parent::beforeAction($action); 
-    }
-
 }

@@ -162,22 +162,6 @@ class Api extends Model
     if ($where) {
       $semua->where($where);
     }
-    if ($keranjang) {
-      $id = $where['produk_id'];
-      $cart = Yii::$app->cart;
-      // if ($id) {
-        $model = Produk::findOne([
-          'produk_id' => $where['produk_id'],
-        ]);
-        // $model = Produk::findOne($where);
-        if ($model) {
-            $cart->put($model, 1);
-            return $semua->one();
-            // return $this->redirect(['cart-view']);
-        }
-        throw new NotFoundHttpException();
-      // }
-    }
     return $semua->one();
   }
 
@@ -338,12 +322,14 @@ class Api extends Model
       'created_by'  => Yii::$app->user->identity->id,
       'is_selected' => '0',
     ]);
-
-    $model->transaksi_id     = $transaksi_id;
+    
+    $model->bukti_bayar      = 'belum ada gambar';
+    $model->transaksi_id     = (int)$transaksi_id;
     $model->kode_tagihan     = (string)$data['fp_merchant_ref'];
     $model->status_tagihan   = '1';
     $model->total_bayar      = (string)($keranjang['harga_produk']+0);
     $model->created_by       = $created_by;
+
     return $model->save();
   }
 
