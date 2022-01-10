@@ -44,7 +44,7 @@ class Tagihan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['bukti_bayar'], 'safe'],
+            [['bukti_bayar'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['kode_tagihan', 'total_bayar'], 'string', 'max' => 255],
             [['bukti_bayar'], 'file', 'extensions'=>'jpg, gif, png, jpeg']

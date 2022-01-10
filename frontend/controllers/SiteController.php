@@ -448,8 +448,7 @@ class SiteController extends Controller
         if ($modelTagihan->load(Yii::$app->request->post())) {
             $this->redirect('@web/site/pesanan');
         } else {
-            $data                  = $modelApi->get_tabel_by('tagihan', ['=', 'transaksi_id', $_GET['data']]);
-            $data['total_bayar_f'] = "Rp ".number_format($data['total_bayar'],0,',','.');      
+            $data = $modelApi->get_tabel_by('tagihan', ['=', 'transaksi_id', $_GET['data']]);
             return $this->renderAjax('pesanan/buktiBayar', [
                 'model' => $modelTagihan,
                 'kode'  => $_GET['data'],

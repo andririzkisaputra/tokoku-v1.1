@@ -188,7 +188,8 @@ class ApiController extends Controller
       $modelApi = new Api();
       $tabel_join = [
         ['tabel' => 'keranjang', 'where' => 'transaksi.transaksi_id = keranjang.transaksi_id'],
-        ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id']
+        ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id'],
+        ['tabel' => 'tagihan', 'where' => 'tagihan.transaksi_id = transaksi.transaksi_id'],
       ];
       $query = $modelApi->get_join_loop([
           'transaksi.created_by' => Yii::$app->user->identity->id
@@ -402,16 +403,11 @@ class ApiController extends Controller
       $simpan       = false;
       $modelApi     = new Api();
       $modelTagihan = new Tagihan();
-      // var_dump(\yii\web\UploadedFile::getInstance($modelTagihan, 'bukti_bayar'));
-      // $post   = $_FILES;
-      $post   = $_POST;
-      // $post   = Yii::$app->request->post();
-      // print_r($post);
-      // exit;
-      // if(Yii::$app->request->isAjax && $request->isPost && $modelTagihan->load(Yii::$app->request->post()))
-      // {
+      if(Yii::$app->request->isAjax && $request->isPost && $modelTagihan->load(Yii::$app->request->post()))
+      {
+        $post   = Yii::$app->request->post('Tagihan');
         $simpan = $modelApi->kirim_bukti_bayar($modelTagihan, $post);
-      // }
+      }
       return ($simpan) ? true : false;
     }
 

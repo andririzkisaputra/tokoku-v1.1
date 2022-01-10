@@ -414,19 +414,16 @@ class Api extends Model
   public function kirim_bukti_bayar($model, $post)
   {
     $modelTagihan = new Tagihan();
-    var_dump(\yii\web\UploadedFile::getInstance($modelTagihan, 'bukti_bayar'));
-    // $bukti_bayar  = UploadedFile::getInstance($model, 'bukti_bayar');
+    $bukti_bayar  = UploadedFile::getInstance($model, 'bukti_bayar');
     $created_by  = Yii::$app->user->identity->id;
     $update      = Tagihan::findOne([
       'kode_tagihan'   => $post['kode_tagihan'],
       'status_tagihan' => '1',
       'created_by'     => $created_by
     ]);
-    print_r($update->bukti_bayar);
-    exit;
     $nama_format    = $post['kode_tagihan'].' '.date('Y-m-d H-s-i');
-    $nama_format    = str_replace(" ", "-", $nama_format).'.jpg';
-    $gambar->saveAs(Yii::getAlias('@uploads').'/'.$nama_format);
+    $nama_format    = str_replace(" ", "-", $nama_format).'.'.$bukti_bayar->extension;;
+    $bukti_bayar->saveAs(Yii::getAlias('@uploadsBuktiBayar').'/'.$nama_format);
     $update->bukti_bayar = $nama_format;
     return $update->save();
   }
