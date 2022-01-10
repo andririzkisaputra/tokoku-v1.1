@@ -8,6 +8,7 @@ use app\models\Produk;
 // use backend\models\Produk;
 use app\models\Keranjang;
 use app\models\Tagihan;
+use app\models\Transaksi;
 use yii\db\Query;
 use yii\web\UploadedFile;
 use yii\imagine\Image;
@@ -421,10 +422,18 @@ class Api extends Model
       'status_tagihan' => '1',
       'created_by'     => $created_by
     ]);
+    $transaksi     = Transaksi::findOne([
+      'transaksi_id'     => $update->transaksi_id,
+      'status_transaksi' => '1',
+      'created_by'       => $created_by
+    ]);
+    $transaksi->status_transaksi = '2';
+    $transaksi->save();
     $nama_format    = $post['kode_tagihan'].' '.date('Y-m-d H-s-i');
     $nama_format    = str_replace(" ", "-", $nama_format).'.'.$bukti_bayar->extension;;
     $bukti_bayar->saveAs(Yii::getAlias('@uploadsBuktiBayar').'/'.$nama_format);
-    $update->bukti_bayar = $nama_format;
+    $update->status_tagihan = '2';
+    $update->bukti_bayar    = $nama_format;
     return $update->save();
   }
 

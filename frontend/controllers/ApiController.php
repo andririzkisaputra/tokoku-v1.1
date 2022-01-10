@@ -189,7 +189,6 @@ class ApiController extends Controller
       $tabel_join = [
         ['tabel' => 'keranjang', 'where' => 'transaksi.transaksi_id = keranjang.transaksi_id'],
         ['tabel' => 'produk', 'where' => 'produk.produk_id = keranjang.produk_id'],
-        ['tabel' => 'tagihan', 'where' => 'tagihan.transaksi_id = transaksi.transaksi_id'],
       ];
       $query = $modelApi->get_join_loop([
           'transaksi.created_by' => Yii::$app->user->identity->id

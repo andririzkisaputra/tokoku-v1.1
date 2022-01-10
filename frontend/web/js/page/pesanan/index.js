@@ -71,7 +71,7 @@ function _getDataPesanan() {
                         +'</div>'
                     +'</div>'
                 );
-                if (item.pembayaran_id == "1" && !item.bukti_bayar) {
+                if (item.pembayaran_id == "1" && item.status_transaksi == "1") {
                     array.push(
                     '<div class="container-keranjang row" style="width: 100%" >'
                         +'<div style="width: 50%;" >'
@@ -82,7 +82,7 @@ function _getDataPesanan() {
                         +'</div>'
                     +'</div>'
                     );
-                } else if (item.pembayaran_id == "3" && !item.bukti_bayar) {
+                } else if (item.pembayaran_id == "3" && item.status_transaksi == "1") {
                     array.push(
                     '<div class="container-keranjang row" style="width: 100%" >'
                         +'<div style="width: 50%;" >'
@@ -93,7 +93,7 @@ function _getDataPesanan() {
                         +'</div>'
                     +'</div>'
                     );
-                } else if (item.bukti_bayar) {
+                } else if (item.status_transaksi == "2") {
                     array.push(
                         '<div class="container-keranjang row" style="width: 100%" >'
                             +'<div style="width: 100%; text-align: end;" >'

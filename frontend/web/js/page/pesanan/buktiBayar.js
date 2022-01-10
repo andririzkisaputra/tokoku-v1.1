@@ -8,7 +8,7 @@ function _getDataBuktiBayar(kode) {
             'kode' : kode
         },
         success: function(res){
-            if (res.data.bukti_bayar) {
+            if (res.data.status_tagihan == '2') {
                 let html     = '';
                 let gambar_f = '';
                 let array    = [];
@@ -25,8 +25,12 @@ function _getDataBuktiBayar(kode) {
                 );
                 array = array.join('');
                 html  = array.toString();
+                $('#list-bukti-bayar').show();
+                $('#input-bukti-bayar').hide();
                 $('#list-bukti-bayar').html(html);
             } else {
+                $('#list-bukti-bayar').hide();
+                $('#input-bukti-bayar').show();
                 $('#transaksi_id').val(res.data.transaksi_id);
                 $('#kode_tagihan').val(res.data.kode_tagihan);
                 $('#total_bayar').val(res.data.total_bayar_f);

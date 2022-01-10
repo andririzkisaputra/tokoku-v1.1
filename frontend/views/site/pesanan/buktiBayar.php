@@ -15,15 +15,16 @@ $this->registerJsFile(
 );
 ?>
 
-<div class="site-index" id="list-bukti-bayar">
-    <?php if (!$data['bukti_bayar']) : ?>
+<div class="site-index">
+    <div id="list-bukti-bayar"></div>
+    <div id="input-bukti-bayar">
         <?php $form = ActiveForm::begin([
             'id' => 'dynamic-form'
         ]); ?>
-            <?= $form->field($model, 'kode_tagihan')->textInput(['id' => 'kode_tagihan']) ?>
-            <?= $form->field($model, 'total_bayar')->textInput(['id' => 'total_bayar']) ?>
-            <?= $form->field($model, 'bukti_bayar')->fileInput(['class' => 'btn btn-primary', 'accept' => 'image/*', 'capture' => 'camera', 'id' => 'bukti_bayar'])->label(false) ?>
-            <?= Html::button('Kirim', ['class' => 'btn btn-sm btn-info', 'id' => 'kirim-bukti-bayar']) ?>
+        <?= $form->field($model, 'kode_tagihan')->textInput(['id' => 'kode_tagihan']) ?>
+        <?= $form->field($model, 'total_bayar')->textInput(['id' => 'total_bayar']) ?>
+        <?= $form->field($model, 'bukti_bayar')->fileInput(['class' => 'btn btn-primary', 'accept' => 'image/*', 'capture' => 'camera', 'id' => 'bukti_bayar'])->label(false) ?>
+        <?= Html::button('Kirim', ['class' => 'btn btn-sm btn-info', 'id' => 'kirim-bukti-bayar']) ?>
         <?php ActiveForm::end(); ?>
-    <?php endif; ?>
+    </div>
 </div>
