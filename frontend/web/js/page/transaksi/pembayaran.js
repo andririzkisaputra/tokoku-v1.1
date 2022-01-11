@@ -1,5 +1,5 @@
 $(document).ready(function(){
-_getData();
+    _getData();
 });
 
 function _getData() {

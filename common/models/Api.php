@@ -77,15 +77,15 @@ class Api extends Model
   }
 
   public function get_join_loop(
-    $where = false,
+    $where      = false,
     $where_like = false,
-    $limit = false,
-    $start = false,
+    $limit      = false,
+    $start      = false,
     $order_by,
     $tabel,
     $tabel_join,
-    $select = '*',
-    $group_by = false
+    $select     = '*',
+    $group_by   = false
   ) {
     $semua = new Query;
     $semua->select($select);
@@ -398,12 +398,33 @@ class Api extends Model
     return $data[$value];
   }
 
+  public function status_tagihan($value)
+  {
+    $data = [
+      1 => 'Menunggu Pembayaran',
+      2 => 'Menunggu Konfirmasi', 
+      3 => 'Dibayar',
+      4 => 'Batal', 
+      5 => 'Gagal'
+    ];
+    $colors = [
+      1 => 'btn btn-info btn-sm',
+      2 => 'btn btn-info btn-sm', 
+      3 => 'btn btn-success btn-sm',
+      4 => 'btn btn-danger btn-sm', 
+      5 => 'btn btn-danger btn-sm'
+    ];
+    $result['data'] =  $data[$value];
+    $result['colors'] =  $colors[$value];
+    return $result;
+  }
+
   public function kirim_bukti_bayar($model, $post)
   {
     $modelTagihan = new Tagihan();
     $bukti_bayar  = UploadedFile::getInstance($model, 'bukti_bayar');
-    $created_by  = Yii::$app->user->identity->id;
-    $update      = Tagihan::findOne([
+    $created_by   = Yii::$app->user->identity->id;
+    $update       = Tagihan::findOne([
       'kode_tagihan'   => $post['kode_tagihan'],
       'status_tagihan' => '1',
       'created_by'     => $created_by

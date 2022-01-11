@@ -6,65 +6,14 @@ use yii\bootstrap4\Modal;
 
 $this->title = 'Admin';
 
-$this->registerJs("
-  $(document).ready(function(){
-    $('#tabel_produk').DataTable({
-      dom: 'Blfrtip',
-      buttons: [],
-      'lengthMenu': [10, 20, 50, 100, 200, 500, 1000, 5000, 10000],
-      'pageLength': 10,
-      'lengthChange': true,
-      'processing': true,
-      'serverSide': true,
-      ajax : {
-        url  : '".Url::base(true)."/api/get-pesanan',
-        type : 'POST',
-        data : {},
-      },
-      columns: [
-        { data: 'no'},
-        { data: 'kode_transaksi', 'className' : 'text-left' },
-        { data: 'nama_produk', 'className' : 'text-left' },
-        { data: 'harga_produk', 'className' : 'text-left',
-          render: $.fn.dataTable.render.number( '.', '', 0, 'Rp ' )
-        },
-        { data: 'aksi', 'className' : 'text-left' },
-      ],
-    });
-
-  });
-
-  $(document).on('click', '.hapus', function() {
-    var produk_id = $(this).attr('data');
-    if (produk_id) {
-      $.ajax({
-          type     : 'POST',
-          url      : '".Url::base(true)."/api/delete-produk',
-          dataType : 'JSON',
-          data     : {
-            produk_id : produk_id
-          },
-          success: function(data){
-            $('#tabel_produk').DataTable().ajax.reload();
-            return true;
-          },
-          error: function(){
-            alert('ERROR at PHP side!!');
-            return false;
-          }
-      });
-    } else {
-      return false;
-    }
-  });
-");
+$this->registerJsFile(
+  '@web/js/page/pesanan/index.js',
+  ['depends' => [\yii\web\JqueryAsset::class]]
+);
 ?>
 <div class="site-index">
   <div class="">
     <h3>Pesanan</h3>
-  </div>
-  <div class="tambah-data btn-group">
-    <?= Html::button('Tambah Data', ['value' => Url::to(['tambah-data-produk']), 'class' => 'btn btn-sm btn-info showModalButton']); ?>
   </div>
   <div class="">
     <table id="tabel_produk" class="table table-bordered table-striped" cellspacing="0">
@@ -72,7 +21,8 @@ $this->registerJs("
             <tr>
                 <th>No</th>
                 <th>Kode Pesanan</th>
-                <th>Nama Produk</th>
+                <th>Status</th>
+                <th>Jumlah Produk</th>
                 <th>Total</th>
                 <th>Aksi</th>
             </tr>
@@ -81,7 +31,8 @@ $this->registerJs("
             <tr>
                 <th>No</th>
                 <th>Kode Pesanan</th>
-                <th>Nama Produk</th>
+                <th>Status</th>
+                <th>Jumlah Produk</th>
                 <th>Total</th>
                 <th>Aksi</th>
             </tr>

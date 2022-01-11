@@ -41,6 +41,7 @@ class Kategori extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['nama_kategori'], 'required'],
             [['is_delete'], 'string'],
             [['created_at', 'updated_at'], 'integer'],
             [['nama_kategori'], 'string', 'max' => 255],

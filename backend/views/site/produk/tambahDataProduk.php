@@ -20,6 +20,6 @@ $this->registerJsFile(
       ) ?>
       <?= $form->field($modelProduk, 'qty')->textInput(['id' => 'qty']) ?>
       <?= $form->field($modelProduk, 'gambar')->fileInput(['class' => 'btn btn-primary', 'accept' => 'image/*', 'capture' => 'camera', 'id' => 'gambar'])->label(false) ?>
-      <?= Html::button('Simpan', ['class' => 'btn btn-sm btn-success', 'id' => 'simpan-produk', 'data-dismiss' => 'modal']); ?>
+      <?= Html::button('Simpan', ['class' => 'btn btn-sm btn-success', 'id' => 'simpan-produk']); ?>
   <?php ActiveForm::end(); ?>
 </div>
