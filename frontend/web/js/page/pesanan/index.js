@@ -10,10 +10,12 @@ function _getDataPesanan() {
         dataType : 'JSON',
         success: function(res){
             let html             = '';
+            let transaksi_number = '';
             let array            = [];
             let array_keranajang = [];
             res.data.map((item, index) => {
                 item.keranjang.map((item1, index1) => {
+                    transaksi_number = (item.va_account) ? item.va_account : item.kode_transaksi;
                     let gambar_f     = '/e-commerce/uploads/backend/produk/'+item1.gambar;
                     array_keranajang.push('<div class="container-pesanan row">'
                     +'<div style="width: 320px;">'
@@ -37,7 +39,7 @@ function _getDataPesanan() {
                 array.push(
                     '<div class="container-keranjang justify-content">'
                         +'<div>'
-                            +'<b>'+item.kode_transaksi+'</b>'
+                            +'<b>'+transaksi_number+'</b>'
                         +'</div>'
                         +'<div class="right-keranjang text-align-end">'
                             +item.status_transaksi_f
@@ -92,6 +94,17 @@ function _getDataPesanan() {
                             +'<button class="btn btn-info qr_code showModalButton" style="margin: 0px 20px 0px 0px;" value="qr-code?data='+item.kode_transaksi+'">Bayar</button>'
                         +'</div>'
                     +'</div>'
+                    );
+                } else if (item.pembayaran_id == "4" && item.status_transaksi == "1") {
+                    array.push(
+                        '<div class="container-keranjang row" style="width: 100%" >'
+                            +'<div style="width: 50%;" >'
+                                +'<button class="btn btn-success showModalButton" style="margin: 0px 20px 0px 0px;" value="bukti-bayar?data='+item.transaksi_id+'">Bukti Bayar</button>'
+                            +'</div>'
+                            +'<div style="width: 50%; text-align: end;" >'
+                                +'<button class="btn btn-info qr_code showModalButton" style="margin: 0px 20px 0px 0px;" value="va?data='+item.kode_transaksi+'">Bayar</button>'
+                            +'</div>'
+                        +'</div>'
                     );
                 } else if (item.status_transaksi == "2") {
                     array.push(

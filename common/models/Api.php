@@ -309,6 +309,11 @@ class Api extends Model
       $model->url_bayar      = $url;
     } elseif ($data['pembayaran_id'] == '3') {
       $model->qr_code        = $url;
+    } elseif ($data['pembayaran_id'] == '4') {
+      $model->url_bayar      = $url->fp_va_howto_link;
+      $model->url_bayar      = $url->fp_va_howto_link;
+      $model->va_account     = $url->fp_va_account;
+      $model->va_username    = $url->fp_va_username;
     }
     $model->created_by       = $created_by;
     $model->save();
@@ -356,6 +361,8 @@ class Api extends Model
       $data['fp_payment_mode'] = 'WALLET';
     } elseif ($post['pembayaran_id'] == '3') {
       $data['fp_payment_mode'] = 'QRIS';
+    } elseif ($post['pembayaran_id'] == '4') {
+      $data['fp_payment_mode'] = 'VA';
     }
     $data['fp_store']        = 'Pasar malam';
     $data['fp_store_link']   = '';
@@ -365,8 +372,6 @@ class Api extends Model
     $data['track_id']        = $post['track_id'];
     $data['order_id']        = $post['order_id'];
     $data['fp_sci_link']     = 'true';
-    // print_r($string);
-    // exit;
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_HTTPHEADER,
     array(
