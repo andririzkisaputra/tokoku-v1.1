@@ -348,13 +348,21 @@ class Api extends Model
 
   public function fasapay($post)
   {
+    // $str = "OtomaX|" + memberId + "|" + product + "|" + dest + "|" +
+    // refID + "|" + pin
+    // + "|" + password
+    // $sign should be "vlrN9Yuu4xHAT8_bXIUHKw2NjHo"
+    // $sign = str_replace('/', '_', str_replace('+', '-' , rtrim(base64_encode(sha1('FASA001|251116|6>8^^XyhG)M', true)), '=')));
+    // $sign = str_replace('/', '_', str_replace('+', '-' , rtrim(base64_encode(sha1('VEM001|1234|2sw123d', true)), '=')));
+    // print_r($sign);
+    // exit;
     $data['fp_sci_version']  = 3;
     $data['fp_acc']          = $post['fp_acc'];
     $data['fp_acc_from']     = '';
     $data['fp_amnt']         = $post['fp_amnt'];
     $data['fp_comments']     = $post['fp_comments'];
     $data['fp_currency']     = 'IDR';
-    $data['fp_expire_at']    = strtotime('+2 day');
+    $data['fp_expire_at']    = strtotime('+3 day');
     $data['fp_item']         = $post['fp_item'];
     $data['fp_merchant_ref'] = $post['fp_merchant_ref'];
     if ($post['pembayaran_id'] == '1') {
@@ -364,14 +372,17 @@ class Api extends Model
     } elseif ($post['pembayaran_id'] == '4') {
       $data['fp_payment_mode'] = 'VA';
     }
-    $data['fp_store']        = 'Pasar malam';
-    $data['fp_store_link']   = '';
-    $data['time_window']     = floor(time()/30);
-    $string                  = implode("|",$data);
-    $data['fp_request_hmac'] = hash_hmac('sha256', $string, '123456');
-    $data['track_id']        = $post['track_id'];
-    $data['order_id']        = $post['order_id'];
-    $data['fp_sci_link']     = 'true';
+    $data['fp_store']         = 'Yellow Trade Indonesia';
+    $data['fp_store_link']    = '';
+    $data['time_window']      = floor(time()/30);
+    $string                   = implode("|",$data);
+    $data['fp_request_hmac']  = hash_hmac('sha256', $string, '123456');
+    $data['fp_cust_name']     = Yii::$app->user->identity->nama;
+    $data['fp_status_url']    = 'https://integration-demo.fasapay.id/site/keranjang';
+    $data['fp_status_method'] = 'GET';
+    $data['track_id']         = $post['track_id'];
+    $data['order_id']         = $post['order_id'];
+    $data['fp_sci_link']      = 'true';
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_HTTPHEADER,
     array(
@@ -386,6 +397,8 @@ class Api extends Model
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     $result = curl_exec($curl);
     curl_close($curl);
+    // print_r($result);
+    // exit;
     return json_decode($result);
   }
 
