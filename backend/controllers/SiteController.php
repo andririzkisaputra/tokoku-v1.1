@@ -192,7 +192,87 @@ class SiteController extends Controller
      */
     public function actionPesanan()
     {
-        return $this->render('pesanan/index');
+        $fasaHelper = new \common\components\FasaHelper();
+        $accessToken = $fasaHelper->accessToken();
+
+        $body = [
+            "partnerReferenceNo" => "12345678912345678900", 
+            "fasapayAccount" => "FI228004", 
+            "balanceTypes" => [], 
+            "additionalInfo" => [
+                     "deviceId" => "4563219871", 
+                     "channel" => "mobilephone" 
+                  ] 
+         ];
+        $end_poin = '/snapv1/informasi-saldo';
+
+
+        $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+        $saldo = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+
+        $body = [
+            "partnerReferenceNo" => "12345678912345678900", 
+            "fasapayAccount" => "FI228004", 
+            "fromDateTime" => "2022-01-01 00:00:00", 
+            "toDateTime" => "2022-12-16 00:00:00", 
+            "pageSize" => "10", 
+            "pageNumber" => "0", 
+            "additionalInfo" => [
+                  "deviceId" => "4563219871", 
+                  "channel" => "mobilephone" 
+               ] 
+         ]; 
+        $end_poin = '/snapv1/transaction-history-list';
+
+
+        $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+        $history_list = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+
+        $body = [
+            "partnerReferenceNo" => "12345678912345678900", 
+            "fasapayAccount" => "FI228004", 
+            "batchnumber" => "WD2210186617", 
+            "additionalInfo" => [
+                    "deviceId" => "4563219871", 
+                    "channel" => "mobilephone" 
+                ] 
+        ];
+        $end_poin = '/snapv1/transaction-history-detail';
+
+
+        $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+        $history_detail = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+        return $this->render('pesanan/index', [
+            'saldo' => $saldo
+        ]);
+    }
+
+    /**
+     * Displays pesanan.
+     *
+     * @return string
+     */
+    public function actionHistori()
+    {
+        $fasaHelper = new \common\components\FasaHelper();
+        $accessToken = $fasaHelper->accessToken();
+
+        $body = [
+            "partnerReferenceNo" => "12345678912345678900", 
+            "fasapayAccount" => "FI228004", 
+            "balanceTypes" => [], 
+            "additionalInfo" => [
+                     "deviceId" => "4563219871", 
+                     "channel" => "mobilephone" 
+                  ] 
+         ];
+        $end_poin = '/snapv1/informasi-saldo';
+
+        $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+        $saldo = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+        return $this->render('histori/index', [
+            'saldo' => $saldo
+        ]);
     }
 
     /**
@@ -276,4 +356,31 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    /**
+     * Displays produk.
+     * mba perlu di balas nggak ya terkait masalah VAnya yang di grop itu, tadi mba dona
+     * @return string
+     */
+     public function actionDetailHistori($id) {
+        $fasaHelper = new \common\components\FasaHelper();
+        $accessToken = $fasaHelper->accessToken();
+        $body = [
+            "partnerReferenceNo" => "12345678912345678900", 
+            "fasapayAccount" => "FI228004", 
+            "batchnumber" => $id, 
+            "additionalInfo" => [
+                    "deviceId" => "4563219871", 
+                    "channel" => "mobilephone" 
+                ] 
+        ];
+        $end_poin = '/snapv1/transaction-history-detail';
+
+
+        $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+        $history_detail = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+       return $this->renderAjax('histori/detailProduk', [
+           'produk' => $history_detail,
+       ]);
+     }
 }

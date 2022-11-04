@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property int $transaksi_id
  * @property string|null $kode_transaksi
- * @property string|null $status_transaksi 1. menunggu pembayaran 2. menunggu konfirmasi pembayaran 3. dibayar 4. batal 5. gagal 6. dikirim 7. selesai
+ * @property string|null $status_transaksi 1. menunggu pembayaran
  * @property string|null $harga_produk
  * @property string|null $ongkir
  * @property int|null $created_by

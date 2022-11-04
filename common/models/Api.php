@@ -312,8 +312,6 @@ class Api extends Model
     } elseif ($data['pembayaran_id'] == '4') {
       $model->url_bayar      = $url->fp_va_howto_link;
       $model->url_bayar      = $url->fp_va_howto_link;
-      $model->va_account     = $url->fp_va_account;
-      $model->va_username    = $url->fp_va_username;
     }
     $model->created_by       = $created_by;
     $model->save();
@@ -372,7 +370,8 @@ class Api extends Model
     } elseif ($post['pembayaran_id'] == '4') {
       $data['fp_payment_mode'] = 'VA';
     }
-    $data['fp_store']         = 'Yellow Trade Indonesia';
+    
+    $data['fp_store']         = 'tokoku';
     $data['fp_store_link']    = '';
     $data['time_window']      = floor(time()/30);
     $string                   = implode("|",$data);
@@ -392,7 +391,7 @@ class Api extends Model
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($curl, CURLOPT_URL, 'https://sci.fasapay.co.id/');
+    curl_setopt($curl, CURLOPT_URL, 'https://sci.dev.fasapay.id/');
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
     $result = curl_exec($curl);

@@ -45,7 +45,7 @@ AppAsset::register($this);
             ['label' => 'Produk', 'url' => ['/site/produk']],
             ['label' => 'Kategori', 'url' => ['/site/kategori']],
             ['label' => 'Pesanan', 'url' => ['/site/pesanan']],
-            ['label' => 'Laporan', 'url' => ['/site/laporan']],
+            ['label' => 'Histori Transaksi', 'url' => ['/site/histori']],
         ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])

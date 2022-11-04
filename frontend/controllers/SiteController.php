@@ -434,7 +434,7 @@ class SiteController extends Controller
                 $tagihan   = $modelApi->simpan_tagihan($modelTagihan, $data_pembayaran, $_POST, $transaksi);
             }
             $this->redirect('@web/site/pesanan');
-            // $this->redirect($data->fp_va_howto_link);
+            $this->redirect($data->fp_va_howto_link);
         }
     }
 

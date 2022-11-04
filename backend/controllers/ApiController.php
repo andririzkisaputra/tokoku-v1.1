@@ -296,4 +296,75 @@ class ApiController extends Controller
       return $result;
     }
 
+    /**
+     * Login action.
+     *
+     * @return string|Response
+     */
+    public function actionGetHistory()
+    {
+      $fasaHelper = new \common\components\FasaHelper();
+      $accessToken = $fasaHelper->accessToken();
+      $body = [
+        "partnerReferenceNo" => "12345678912345678900", 
+        "fasapayAccount" => "FI228004", 
+        "fromDateTime" => "2022-01-01 00:00:00", 
+        "toDateTime" => "2022-12-16 00:00:00", 
+        "pageSize" => "5", 
+        "pageNumber" => "0", 
+        "additionalInfo" => [
+              "deviceId" => "4563219871", 
+              "channel" => "mobilephone" 
+           ] 
+     ]; 
+    $end_poin = '/snapv1/transaction-history-list';
+
+
+    $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+    $history_list = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+      \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+      foreach ($history_list['listHistory'] as $key => $value) {
+				$query[$key]['no']	 = $key+1;
+				$query[$key]['batchnumber']	 = $value['batchnumber'];
+				$query[$key]['balance']	 = $value['sourceOfFunds'][0]['amount']['value'];
+				$query[$key]['remark']	 = $value['remark'];
+				$query[$key]['status']	 = $value['status'];
+				$query[$key]['dateTime']	 = $value['dateTime'];
+				$query[$key]['type']	 = $value['type'];
+				$query[$key]['aksi'] = '<div class="btn-group btn-group-toggle">'
+                                 .Html::button('Detail', ['value' => Url::to(['/site/detail-histori?id='.$value['batchnumber']]), 'class' => 'btn btn-sm btn-info showModalButton'])
+      												 .'</div>';
+			}
+      $result['data'] 					 = $query;
+      return $result;
+    }
+    
+    /**
+     * Login action.
+     *
+     * @return string|Response
+     */
+    public function actionDetailHistori()
+    {
+
+      $fasaHelper = new \common\components\FasaHelper();
+      $accessToken = $fasaHelper->accessToken();
+      $body = [
+          "partnerReferenceNo" => "12345678912345678900", 
+          "fasapayAccount" => "FI228004", 
+          "batchnumber" => "WD2210186617", 
+          "additionalInfo" => [
+                  "deviceId" => "4563219871", 
+                  "channel" => "mobilephone" 
+              ] 
+      ];
+      $end_poin = '/snapv1/transaction-history-detail';
+
+
+      $signature = $fasaHelper->signatureService($body, $end_poin, $accessToken);
+      $history_detail = $fasaHelper->request($end_poin, $body, $signature, $accessToken);
+      $result['data'] = $history_detail;
+      return $result;
+    }
+
 }

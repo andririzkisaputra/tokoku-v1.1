@@ -15,6 +15,15 @@ $this->registerJsFile(
   <div class="">
     <h3>Pesanan</h3>
   </div>
+  <?php 
+      foreach ($saldo['accountInfo'] as $key => $value) {
+  ?>
+      <label for="">Saldo : </label>
+      <label for=""><?php echo $value['amount']['value'] ?></label>
+      <label for=""><?php echo $value['amount']['currency'] ?></label>
+  <?php
+    }
+  ?>
   <div class="">
     <table id="tabel_produk" class="table table-bordered table-striped" cellspacing="0">
         <thead>
