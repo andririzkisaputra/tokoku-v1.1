@@ -21,11 +21,11 @@ class m211230_030708_create_pembayaran_table extends Migration
         $table = '{{%pembayaran}}';
         $this->createTable($table, [
             'pembayaran_id' => $this->primaryKey(),
-            'pembayaran'    => $this->string(45)->notNull(),
+            'pembayaran'    => $this->string(45),
             'is_active'     => 'enum("0", "1") NOT NULL DEFAULT "1" COMMENT "0. Tidak Aktif, 1.Aktif"',
-            'gambar'        => $this->string(255)->notNull(),
-            'admin'         => $this->string(255)->notNull(),
-            'created_by'    => $this->integer(11)->notNull(),
+            'gambar'        => $this->string(255),
+            'admin'         => $this->string(255),
+            'created_by'    => $this->integer(11),
             'created_at'    => $this->integer(),
             'updated_at'    => $this->integer(),
         ], $tableOptions);

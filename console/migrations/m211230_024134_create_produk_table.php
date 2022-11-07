@@ -21,13 +21,13 @@ class m211230_024134_create_produk_table extends Migration
         $table = '{{%produk}}';
         $this->createTable($table, [
             'produk_id'   => $this->primaryKey(),
-            'kategori_id' => $this->string(11)->notNull(),
-            'nama_produk' => $this->string(255)->notNull(),
-            'qty'         => $this->string(11)->notNull(),
+            'kategori_id' => $this->string(11),
+            'nama_produk' => $this->string(255),
+            'qty'         => $this->string(11),
             'harga'       => $this->string(45)->notNull(),
-            'gambar'      => $this->string(255)->notNull(),
-            'is_delete' => 'enum("0", "1") NOT NULL DEFAULT "1" COMMENT "0. Delete, 1.Aktif"',
-            'created_by'  => $this->integer(11)->notNull(),
+            'gambar'      => $this->string(255),
+            'is_delete' => 'enum("0", "1") DEFAULT "1" COMMENT "0. Delete, 1.Aktif"',
+            'created_by'  => $this->integer(11),
             'created_at'  => $this->integer(),
             'updated_at'  => $this->integer(),
         ], $tableOptions);
